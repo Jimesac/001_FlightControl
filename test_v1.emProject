@@ -1,0 +1,95 @@
+<!DOCTYPE CrossStudio_Project_File>
+<solution Name="test_v1" version="2" target="20">
+  <configuration
+    Name="Debug"
+    c_preprocessor_definitions="DEBUG"
+    gcc_debugging_level="Level 3"
+    gcc_omit_frame_pointer="Yes"
+    gcc_optimization_level="None" />
+  <configuration
+    Name="Release"
+    c_preprocessor_definitions="NDEBUG"
+    gcc_debugging_level="Level 2"
+    gcc_omit_frame_pointer="Yes"
+    gcc_optimization_level="Level 2 balanced" />
+  <project Name="test_v1">
+    <configuration
+      LIBRARY_IO_TYPE="SEMIHOST (host-formatted)"
+      Name="Common"
+      Target="HPM5361xCFx"
+      arm_compiler_variant="gcc"
+      arm_linker_variant="SEGGER"
+      c_preprocessor_definitions="HPM5361xCFx;__HPM5361XCFX_SUBFAMILY;__HPM5361_FAMILY"
+      c_user_include_directories="$(ProjectDir)/HPM5361/Device/Include;$(ProjectDir)/HPM5361/Device/Include/riscv;$(ProjectDir)/BSP/Include;$(ProjectDir)/APP/Include;$(ProjectDir)/HPM5361/Compenets/debug_console"
+      debug_register_definition_file="$(ProjectDir)/hpm_ses_reg.xml"
+      debug_stack_pointer_start="__stack_end__"
+      debug_start_from_entry_point_symbol="Yes"
+      debug_target_connection="J-Link"
+      gcc_entry_point="Reset_Handler"
+      link_linker_script_file="$(ProjectDir)/HPM5361_Flash.icf"
+      linker_memory_map_file="$(ProjectDir)/HPM5361xCFx_MemoryMap.xml"
+      macros="DeviceHeaderFile=$(PackagesDir)/HPM5361/Device/Include/hpm_soc.h;DeviceSystemFile=$(PackagesDir)/HPM5361/Device/Source/system.c;DeviceFamily=HPM5361;DeviceSubFamily=HPM5361xCFx;Target=HPM5361xCFx"
+      project_directory=""
+      project_type="Executable"
+      rv_abi="ilp32d"
+      rv_architecture="rv32gc"
+      rv_debug_extensions="None"
+      stack_size="2048"
+      target_device_name="HPM5361xCFx"
+      target_interface_type="JTAG"
+      target_reset_script="Reset();" />
+    <folder Name="APP">
+      <file file_name="APP/Source/magencoder.c" />
+    </folder>
+    <folder Name="BSP">
+      <file file_name="BSP/Source/bsp_adc.c" />
+      <file file_name="BSP/Source/bsp_led.c" />
+      <file file_name="BSP/Source/bsp_pwm.c" />
+      <file file_name="BSP/Source/bsp_spi.c" />
+      <file file_name="BSP/Source/bsp_timer.c" />
+      <file file_name="BSP/Source/bsp_uart.c" />
+    </folder>
+    <folder Name="Compenets Files">
+      <file file_name="HPM5361/Compenets/debug_console/hpm_debug_console.c" />
+    </folder>
+    <folder Name="Device Files">
+      <file file_name="HPM5361/Device/Include/hpm_soc.h" />
+      <file file_name="HPM5361/Device/Source/system.c">
+        <configuration
+          Name="Common"
+          default_code_section=".init"
+          default_const_section=".init_rodata" />
+      </file>
+    </folder>
+    <folder Name="Drives Files">
+      <file file_name="HPM5361/Device/Source/drivers/hpm_adc16_drv.c" />
+      <file file_name="HPM5361/Device/Source/drivers/hpm_gpio_drv.c" />
+      <file file_name="HPM5361/Device/Source/drivers/hpm_gptmr_drv.c" />
+      <file file_name="HPM5361/Device/Source/drivers/hpm_pcfg_drv.c" />
+      <file file_name="HPM5361/Device/Source/drivers/hpm_pllctlv2_drv.c" />
+      <file file_name="HPM5361/Device/Source/drivers/hpm_spi_drv.c" />
+      <file file_name="HPM5361/Device/Source/drivers/hpm_uart_drv.c" />
+    </folder>
+    <folder Name="Script Files">
+      <file file_name="HPM5361/Scripts/HPM5361_Target.js">
+        <configuration Name="Common" file_type="Reset Script" />
+      </file>
+    </folder>
+    <folder Name="Source Files">
+      <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
+      <file file_name="main.c" />
+    </folder>
+    <folder Name="System Files">
+      <file file_name="HPM5361/Device/Source/hpm_bootheader.c" />
+      <file file_name="HPM5361/Device/Source/hpm_clock_drv.c" />
+      <file file_name="HPM5361/Device/Source/hpm_l1c_drv.c" />
+      <file file_name="HPM5361/Device/Source/hpm_otp_drv.c" />
+      <file file_name="HPM5361/Device/Source/hpm_sysctl_drv.c" />
+      <file file_name="HPM5361/Device/Source/initfini.c" />
+      <file file_name="HPM5361/Device/Source/reset.c" />
+      <file file_name="HPM5361/Source/SEGGER_RV32_Startup.s" />
+      <file file_name="HPM5361/Source/Startup.s" />
+      <file file_name="HPM5361/Device/Source/trap.c" />
+    </folder>
+  </project>
+</solution>

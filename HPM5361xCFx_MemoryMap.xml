@@ -1,0 +1,5 @@
+<!DOCTYPE Board_Memory_Definition_File>
+<root name="HPM5361xCFx">
+  <MemorySegment name="RAM1" start="0x01040000" size="0x00040000" access="Read/Write" />
+  <MemorySegment name="FLASH1" start="0x80003000" size="0x000FD000" access="ReadOnly" />
+</root>
