@@ -24,11 +24,17 @@ Purpose : Generic application start
 #include "bsp_pwm.h"
 
 #include "magencoder.h"
+#include "imu.h"
+
+#if defined(FLASH_XIP) && FLASH_XIP
+__attribute__ ((section(".nor_cfg_option"))) const uint32_t option[4] = {0xfcf90002, 0x00000006, 0x1000, 0x0};
+#endif
 
 
 static void board_init_clock(void);
 
 uint32_t main_cnt = 0;
+uint16_t spi_com_tx_data[5] = {0x0102, 0x0203, 0x0304, 0x0405};
 
 /*********************************************************************
 *
@@ -48,6 +54,7 @@ int main(void) {
   bsp_spi_init();
 
   magencoder_init();
+  //remo_imu_init();
 
   //for (i = 0; i < 100; i++) {
   //  printf("Hello World %d!\n", i);
@@ -57,11 +64,13 @@ int main(void) {
 
     do {
         main_cnt++;
-        if (main_cnt % 100000 == 0)
+        if (main_cnt % 300000 == 0)
         {
             BOARD_LED1_TOGGLE
             BOARD_LED2_TOGGLE
             magencoder_update();
+            //remo_imu_update();
+            bsp_com_spi_send(0x55, 0, (uint8_t *)&spi_com_tx_data[0], 4);
             printf("Hello World %d!,schedule counter: %d, tiemr 0.1us: %f, pwm counter: %d\n", main_cnt, bsp_timer_schedule_get_update_cnt(), \
                 bsp_timer_clock_start_0p1us()*1e-7, pwm_get_counter_val(BOARD_YAW_PWM_BASE));
         }

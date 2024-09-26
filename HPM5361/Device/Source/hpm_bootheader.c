@@ -8,7 +8,7 @@
 #include "hpm_bootheader.h"
 
 /* symbol exported from startup.S */
-extern uint32_t _start[];
+extern uint32_t Reset_Handler[];
 
 /* following symbols exported from linker script */
 extern uint32_t __app_load_addr__[];
@@ -23,7 +23,7 @@ __attribute__ ((section(".fw_info_table"))) const fw_info_table_t fw_info = {
     0,                          /* reserved0 */
     (uint32_t) &__app_load_addr__, /* load_addr */
     0,                          /* reserved1 */
-    (uint32_t) _start,          /* entry_point */
+    (uint32_t) Reset_Handler,          /* entry_point */
     0,                          /* reserved2 */
     {0},                          /* hash */
     {0},                          /* iv */

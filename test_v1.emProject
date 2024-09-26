@@ -26,19 +26,34 @@
       debug_start_from_entry_point_symbol="Yes"
       debug_target_connection="J-Link"
       gcc_entry_point="Reset_Handler"
-      link_linker_script_file="$(ProjectDir)/HPM5361_Flash.icf"
-      linker_memory_map_file="$(ProjectDir)/HPM5361xCFx_MemoryMap.xml"
+      heap_size="16384"
+      link_linker_script_file="$(ProjectDir)/HPM5361/Source/flash_xip.icf"
+      linker_memory_map_file=""
+      linker_output_format="bin"
       macros="DeviceHeaderFile=$(PackagesDir)/HPM5361/Device/Include/hpm_soc.h;DeviceSystemFile=$(PackagesDir)/HPM5361/Device/Source/system.c;DeviceFamily=HPM5361;DeviceSubFamily=HPM5361xCFx;Target=HPM5361xCFx"
       project_directory=""
       project_type="Executable"
-      rv_abi="ilp32d"
-      rv_architecture="rv32gc"
+      rv_abi="ilp32"
+      rv_arch_zba="Yes"
+      rv_arch_zbb="Yes"
+      rv_arch_zbc="Yes"
+      rv_arch_zbs="Yes"
+      rv_architecture="rv32imac"
       rv_debug_extensions="None"
-      stack_size="2048"
+      stack_size="16384"
       target_device_name="HPM5361xCFx"
       target_interface_type="JTAG"
       target_reset_script="Reset();" />
+    <configuration
+      Name="Debug"
+      c_preprocessor_definitions="FLASH_XIP=1"
+      link_linker_script_file="$(ProjectDir)/HPM5361/Source/flash_xip.icf"
+      rv_arch_zba="Yes"
+      rv_arch_zbb="Yes"
+      rv_arch_zbc="Yes"
+      rv_architecture="rv32imac" />
     <folder Name="APP">
+      <file file_name="APP/Source/imu.c" />
       <file file_name="APP/Source/magencoder.c" />
     </folder>
     <folder Name="BSP">
