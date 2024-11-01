@@ -3,39 +3,28 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "imu_lsm6dsv.h"
+#include "imu_lsm6dsvd.h"
 #include "user_config.h"
 
 // 陀螺仪采样范围±4g,16位采样(-32768~32767), 
 // 陀螺仪数据°/s的单位化系数为2000/32768 = 1000/16384, 
+#define IMU_GYRO_TO_DEG  (0.061035f)
 
-#define GRAVITY_MS2    (9.8)
+#define GRAVITY_MS2    (9.8f)
 
 #define GYRO_RANGE_2000DPS
 //#define GYRO_RANGE_1000DPS
 //#define GYRO_RANGE_500DPS
 
 // 单位g的采样值为8192(2^13)
-#define IMU_ACC_G_VALUE (8192)
-#define IMU_ACC_G_SQUARE_VALUE (IMU_ACC_G_VALUE*IMU_ACC_G_VALUE)
-#define IMU_ACC_G_SHIFT_BIT_NUM (0x0D)
+#define IMU_ACC_TO_MS2  (9.8f/8192)
 
-// 加速度值归一化系数，8192*1024，保证求平方根导数的精度
-#define IMU_ACC_G_NORM_VALUE (8388608)
-#define IMU_ACC_G_NORM_SHIFT_BIT_NUM (0x0A)  // 1024 = 2^10 
-#define IMU_ACC_TO_MS2  (9.8/8192)
-
-// 由加速度采样值数据格式转换为q14格式
-#define IMU_G_TO_Q14_SHIFT_BIT_NUM  (Q14_SHIFT_BIT_NUM - IMU_ACC_G_SHIFT_BIT_NUM)
 
 #define  IMU_DATA_STORAGE_IN_FLASH
 
 typedef enum {
     IMU_LSM6DSV = 0,
 }imu_type_t;
-
-extern imu_type_t imu_type;
-extern float imu_gyro_to_deg;
 
 void remo_imu_init(void);
 void remo_imu_update(void);
@@ -71,6 +60,7 @@ void remo_imu_reset_register_filter(void);
 void remo_imu_set_tempreture_offset(float *temperature_offset, uint8_t state);
 void remo_imu_set_fine_offset(float *fine_offset);
 
+bool remo_imu_get_run_normal_flag(void);
 float remo_imu_get_gyro_deg(uint8_t index);
 
 int16_t remo_imu_get_xaixs_gyro_ddps(void);

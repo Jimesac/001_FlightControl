@@ -3,3 +3,4 @@
 
 sdk_inc(.)
 sdk_src(hpm_debug_console.c)
+set(SES_TOOLCHAIN_VARIANT "Andes")

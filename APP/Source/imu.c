@@ -1,10 +1,11 @@
 #include "imu.h"
 #include "bsp_spi.h"
+#include "user_config.h"
 
 struct{
-    lsm6dsv_params_t lsm6dsv_params;
+    lsm6dsvd_params_t lsm6dsvd_params;
 }imu_params = {
-    .lsm6dsv_params = {
+    .lsm6dsvd_params = {
         .who_am_i = 0xAA,
         .temp_output = 0,
         .gyro_output = {0},
@@ -65,16 +66,15 @@ struct{
 
 static uint8_t remo_imu_spi_send(uint8_t cmd, uint8_t *data, uint8_t len);
 static uint8_t remo_imu_spi_receive(uint8_t cmd, uint8_t *data, uint8_t len);
+static uint8_t remo_imu_spi_receive_simple(uint8_t cmd, uint8_t *data, uint8_t len);
 
 static void remo_imu_params_init(void);
 static void remo_imu_register_init(void);
 
-
-uint8_t imu_rw_addr = 0;
-
 imu_type_t imu_type = 0;
 float imu_gyro_to_deg = 0.0f;
 
+uint8_t imu_spi_div = 1;
 
 /************************************************************************************************
  * 函数名称: remo_imu_params_init
@@ -85,78 +85,52 @@ float imu_gyro_to_deg = 0.0f;
 static void remo_imu_params_init(void)
 {
     bool flash_data_invalid_flag = false;
-    int32_t imu_type_try_cnt = 4000000;
-    
-    while(imu_type_try_cnt-- > 0){
-
-        imu_rw_addr = LSM6DSV_I2C_RW_ADDR >> 1;
-        imu_info.spi_wr_state = remo_imu_spi_receive(LSM6DSV_WHO_AM_I_0F, 
-                (uint8_t *)&imu_params.lsm6dsv_params.who_am_i, 1);
-        if (imu_info.spi_wr_state == 0 && imu_params.lsm6dsv_params.who_am_i == LSM6DSV_WHO_AM_I_VALUE)
-        {
-            imu_type = IMU_LSM6DSV;
-#ifdef GYRO_RANGE_2000DPS 
-            imu_gyro_to_deg = 70.0f/1000;
-#elif defined(GYRO_RANGE_1000DPS)
-			imu_gyro_to_deg = 70.0f/2000;
-#elif defined(GYRO_RANGE_500DPS)
-			imu_gyro_to_deg = 70.0f/4000;
-#endif
-            break;
-        }
-		
-        clock_cpu_delay_ms(30);
-    }
-    
-    switch(imu_type) {
-        case IMU_LSM6DSV:
-            imu_rw_addr = LSM6DSV_I2C_RW_ADDR >> 1; 
-            break;
-        default:
-            break;
-    }
-    
-    switch(imu_type) {
-        case IMU_LSM6DSV:
-            // 综合配置
-            imu_params.lsm6dsv_params.ctrl3.types.sw_reset = 1;   // 软件reset
-            imu_params.lsm6dsv_params.ctrl3.types.if_inc = 1;     // 多字节读取时寄存器地址自动增加
-            imu_params.lsm6dsv_params.ctrl3.types.bdu = 1;
-			imu_params.lsm6dsv_params.ctrl4.types.drdy_mask = 0;
-		
-			// 陀螺仪输出设置
-            imu_params.lsm6dsv_params.ctrl2_gyro.types.op_mode_g = 1;  // 陀螺仪高性能模式使能
-            imu_params.lsm6dsv_params.ctrl2_gyro.types.odr_g = 10;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz
-#ifdef GYRO_RANGE_2000DPS 
-			imu_params.lsm6dsv_params.ctrl6_gyro.types.fs_g = 4;  // 4:2000dps, 3:1000dps, 2:500dps
-#elif defined(GYRO_RANGE_1000DPS)
-			imu_params.lsm6dsv_params.ctrl6_gyro.types.fs_g = 3;  // 4:2000dps, 3:1000dps, 2:500dps
-#elif defined(GYRO_RANGE_500DPS)
-			imu_params.lsm6dsv_params.ctrl6_gyro.types.fs_g = 2;  // 4:2000dps, 3:1000dps, 2:500dps
-#endif
-
-            // 陀螺仪滤波器设置
-            imu_params.lsm6dsv_params.ctrl7.types.lpf1_g_en = 1;      // 辅助spi不使能时使能陀螺仪lpf1
-            imu_params.lsm6dsv_params.ctrl6_gyro.types.lpf1_g_bw = 1; // odr在1.92KHz下，陀螺仪lpf1带宽选择0:273Hz, 1:210Hz, 2:155Hz
 
 
-            // 加速度计输出设置
-            imu_params.lsm6dsv_params.ctrl1_accel.types.odr_xl = 10;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz
-            imu_params.lsm6dsv_params.ctrl1_accel.types.op_mode_xl = 1;  // 加速度计高性能模式使能
-            imu_params.lsm6dsv_params.ctrl8_accel.types.fs_xl = 1;       // 1:±4g
-		
-            // 加速度计滤波器设置
-            imu_params.lsm6dsv_params.ctrl9_accel.types.lpf2_xl_en = 1;  // 加速度计低通滤波器2使能
-            imu_params.lsm6dsv_params.ctrl9_accel.types.hp_slope_xl_en = 0;   // 加速度计斜率滤波不使能
-            imu_params.lsm6dsv_params.ctrl9_accel.types.hp_ref_mode_xl = 0;   // 加速度计高通滤波不使能
-            imu_params.lsm6dsv_params.ctrl8_accel.types.hp_lpf2_xl_bw = 3; // 低通滤波器2带宽，2:odr/20, 3:odr/45
-
-
-            break;
-        default:
-            break;
-    }
+    // 综合配置
+    imu_params.lsm6dsvd_params.ctrl3.types.sw_reset = 1;   // 软件reset
+    imu_params.lsm6dsvd_params.ctrl3.types.if_inc = 1;     // 多字节读取时寄存器地址自动增加
+    imu_params.lsm6dsvd_params.ctrl3.types.bdu = 1;
+    imu_params.lsm6dsvd_params.ctrl4.types.drdy_mask = 0;
         
+    // 陀螺仪输出设置
+    imu_params.lsm6dsvd_params.ctrl2_gyro.types.op_mode_g = 0;  // 默认陀螺仪高性能模式使能
+#if (IMU_ODR__VEL_CTRL__FREQ == 7680)
+    imu_params.lsm6dsvd_params.ctrl2_gyro.types.odr_g = 12;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz, 12:7.68KHz
+#elif (IMU_ODR__VEL_CTRL__FREQ == 3840)
+    imu_params.lsm6dsvd_params.ctrl2_gyro.types.odr_g = 11;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz, 12:7.68KHz
+#elif (IMU_ODR__VEL_CTRL__FREQ == 1920)
+    imu_params.lsm6dsvd_params.ctrl2_gyro.types.odr_g = 10;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz, 12:7.68KHz
+#elif (IMU_ODR__VEL_CTRL__FREQ == 960)
+    imu_params.lsm6dsvd_params.ctrl2_gyro.types.odr_g = 9;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz, 12:7.68KHz
+#else
+    imu_params.lsm6dsvd_params.ctrl2_gyro.types.odr_g = 10;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz, 12:7.68KHz
+#endif
+#ifdef GYRO_RANGE_2000DPS 
+    imu_params.lsm6dsvd_params.ctrl6_gyro.types.fs_g = 4;  // 4:2000dps, 3:1000dps, 2:500dps
+#elif defined(GYRO_RANGE_1000DPS)
+    imu_params.lsm6dsvd_params.ctrl6_gyro.types.fs_g = 3;  // 4:2000dps, 3:1000dps, 2:500dps
+#elif defined(GYRO_RANGE_500DPS)
+    imu_params.lsm6dsvd_params.ctrl6_gyro.types.fs_g = 2;  // 4:2000dps, 3:1000dps, 2:500dps
+#endif
+
+    // 陀螺仪滤波器设置
+    imu_params.lsm6dsvd_params.ctrl7.types.lpf1_g_en = 1;      // 辅助spi不使能时使能陀螺仪lpf1
+    imu_params.lsm6dsvd_params.ctrl6_gyro.types.lpf1_g_bw = 1; // odr在1.92KHz下，陀螺仪lpf1带宽选择0:272Hz, 1:209Hz, 2:155Hz
+                                                               // odr在3.84KHz下，陀螺仪lpf1带宽选择0:279Hz, 1:212Hz, 2:156Hz
+
+
+    // 加速度计输出设置
+    imu_params.lsm6dsvd_params.ctrl1_accel.types.odr_xl = imu_params.lsm6dsvd_params.ctrl2_gyro.types.odr_g-1;     // 9:960Hz, 10:1.92KHz, 11:3.84KHz, 12:7.68KHz
+    imu_params.lsm6dsvd_params.ctrl1_accel.types.op_mode_xl = 0;  // 默认加速度计高性能模式使能
+    imu_params.lsm6dsvd_params.ctrl8_accel.types.fs_xl = 1;       // 1:±4g
+        
+    // 加速度计滤波器设置
+    imu_params.lsm6dsvd_params.ctrl9_accel.types.lpf2_xl_en = 1;  // 加速度计低通滤波器2使能
+    imu_params.lsm6dsvd_params.ctrl9_accel.types.hp_slope_xl_en = 0;   // 加速度计斜率滤波不使能
+    imu_params.lsm6dsvd_params.ctrl9_accel.types.hp_ref_mode_xl = 0;   // 加速度计高通滤波不使能
+    imu_params.lsm6dsvd_params.ctrl8_accel.types.hp_lpf2_xl_bw = 3; // 低通滤波器2带宽，2:odr/20, 3:odr/45
+ 
 
 //    remo_flash_read_halfwords(FLASH_ADDR_ACC_MATRIX, 9, (uint16_t *)imu_info.accel_trans_matrix);
 //    remo_flash_read_halfwords(FLASH_ADDR_GYRO_MATRIX, 9, (uint16_t *)imu_info.gyro_trans_matrix);
@@ -187,15 +161,15 @@ static void remo_imu_params_init(void)
 //            (abs(imu_info.gyro_trans_matrix[4]) << (CONST_1_Q14 >> 1)) || \
 //            (abs(imu_info.gyro_trans_matrix[8]) << (CONST_1_Q14 >> 1)))
 //    {
-        imu_info.gyro_trans_matrix[0] = imu_gyro_to_deg;
+        imu_info.gyro_trans_matrix[0] = IMU_GYRO_TO_DEG;
         imu_info.gyro_trans_matrix[1] = 0;
         imu_info.gyro_trans_matrix[2] = 0;
         imu_info.gyro_trans_matrix[3] = 0;
-        imu_info.gyro_trans_matrix[4] = imu_gyro_to_deg;
+        imu_info.gyro_trans_matrix[4] = IMU_GYRO_TO_DEG;
         imu_info.gyro_trans_matrix[5] = 0;
         imu_info.gyro_trans_matrix[6] = 0;
         imu_info.gyro_trans_matrix[7] = 0;
-        imu_info.gyro_trans_matrix[8] = imu_gyro_to_deg;
+        imu_info.gyro_trans_matrix[8] = IMU_GYRO_TO_DEG;
 //    }
 
 //    flash_data_invalid_flag = (imu_info.accel_offset[0] == (int16_t)0xffff || imu_info.accel_offset[1] == (int16_t)0xffff 
@@ -232,52 +206,45 @@ static void remo_imu_params_init(void)
 **************************************************************************************************/
 static void remo_imu_register_init(void)
 {
-    switch(imu_type) {
-        case IMU_LSM6DSV:
-
-            // 软件reset
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL3_C_12, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl3, 1);
-            clock_cpu_delay_ms(50);
-            imu_params.lsm6dsv_params.ctrl3.types.sw_reset = 0;
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL3_C_12, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl3, 1);
-            clock_cpu_delay_ms(50);
-            imu_info.spi_wr_state = remo_imu_spi_receive(LSM6DSV_CTRL3_C_12, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl3, 1);
-            clock_cpu_delay_ms(20);
-            
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL1_XL_10, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl1_accel, 1);
-            clock_cpu_delay_ms(20);
-                                
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL2_G_11, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl2_gyro, 1);
-            clock_cpu_delay_ms(10);
-            
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL4_C_13, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl4, 1);
-            clock_cpu_delay_ms(20);
-            
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL6_G_15, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl6_gyro, 1);
-            clock_cpu_delay_ms(20);
-            
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL7_C_16, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl7, 1);
-            clock_cpu_delay_ms(20);
-            
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL8_XL_17, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.ctrl8_accel, 1);
-            clock_cpu_delay_ms(20);
-			
-            imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSV_CTRL9_XL_18, 
-                    (uint8_t *)&imu_params.lsm6dsv_params.ctrl9_accel, 1);
-            clock_cpu_delay_ms(30);
-            break;
-        default:
-            break;
-    }
+      // 软件reset
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL3_C_12, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl3, 1);
+      clock_cpu_delay_ms(20);
+      imu_params.lsm6dsvd_params.ctrl3.types.sw_reset = 0;
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL3_C_12, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl3, 1);
+      clock_cpu_delay_ms(20);
+      imu_info.spi_wr_state = remo_imu_spi_receive(LSM6DSVD_CTRL3_C_12, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl3, 1);
+      clock_cpu_delay_ms(10);
+      
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL1_XL_10, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl1_accel, 1);
+      clock_cpu_delay_ms(10);
+                          
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL2_G_11, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl2_gyro, 1);
+      clock_cpu_delay_ms(10);
+      
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL4_C_13, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl4, 1);
+      clock_cpu_delay_ms(10);
+      
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL6_G_15, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl6_gyro, 1);
+      clock_cpu_delay_ms(10);
+      
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL7_C_16, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl7, 1);
+      clock_cpu_delay_ms(10);
+      
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL8_XL_17, 
+                          (uint8_t *)&imu_params.lsm6dsvd_params.ctrl8_accel, 1);
+      clock_cpu_delay_ms(10);
+                  
+      imu_info.spi_wr_state = remo_imu_spi_send(LSM6DSVD_CTRL9_XL_18, 
+              (uint8_t *)&imu_params.lsm6dsvd_params.ctrl9_accel, 1);
+      clock_cpu_delay_ms(20);
 }
 
 /************************************************************************************************
@@ -288,28 +255,40 @@ static void remo_imu_register_init(void)
 **************************************************************************************************/
 void remo_imu_init(void)
 {
-	// imu参数配置初始化
+    // imu参数配置初始化
     remo_imu_params_init();
     
-    switch(imu_type) {
-        
-        case IMU_LSM6DSV:
-            // 判断能否正确读取数据
-            imu_info.spi_wr_state = remo_imu_spi_receive(LSM6DSV_WHO_AM_I_0F, 
-                               (uint8_t *)&imu_params.lsm6dsv_params.who_am_i, 1);
-            if (imu_info.spi_wr_state != 0 || imu_params.lsm6dsv_params.who_am_i != LSM6DSV_WHO_AM_I_VALUE)
-            {
-                imu_info.run_normal_flag = false;
-            }
+    //判断能否正确读取数据
+    while (1)
+    {
+        imu_info.spi_wr_state = remo_imu_spi_receive(LSM6DSVD_WHO_AM_I_0F, 
+               (uint8_t *)&imu_params.lsm6dsvd_params.who_am_i, 1);
+        if (imu_info.spi_wr_state != 0 || imu_params.lsm6dsvd_params.who_am_i != LSM6DSVD_WHO_AM_I_VALUE)
+        {
+            imu_info.run_normal_flag = false;
+        }
+        else
+        {
+            imu_info.run_normal_flag = true;
             break;
-        default:
-            break;
+        }
+
+        clock_cpu_delay_ms(20);
     }
 
     // 设置寄存器
     remo_imu_register_init();
 
-    if (!imu_info.spi_wr_state)  imu_info.stop_sampling_flag = false;
+    if (imu_info.run_normal_flag)  
+    {
+        imu_info.stop_sampling_flag = false;
+    }
+    else
+    {
+        imu_info.stop_sampling_flag = true;
+    }
+
+    imu_spi_div = magencoder_imu_spi_clcok / 10000000;
 }
 
 /************************************************************************************************
@@ -327,90 +306,82 @@ struct {
     .flag = 0,
     .deg = 0.0f,
     .dt = 0.0008344};
+    float gyro_correct[3] = {0};
 void remo_imu_update(void)
 {
     static int16_t accel_temp[3] = {0}, gyro_temp[3] = {0};
     static int16_t gyro_median[3][7] = {0};
     static uint8_t gyro_median_cnt = 0;
-    float gyro_correct[3] = {0};
+    //float gyro_correct[3] = {0};
+
+    static uint16_t smp_state = 0;
     
     if (imu_info.stop_sampling_flag)
     {
         return;
     }
+
+    bsp_magencoder_imu_spi_set_clock_div(imu_spi_div);
     
-    switch(imu_type) {
-        case IMU_LSM6DSV:
-            //imu_info.spi_wr_state = remo_imu_spi_receive(LSM6DSV_STATUS_REG_1E, 
-            //            (uint8_t *)&imu_params.lsm6dsv_params.status_reg.which_type, 1);
 
-            imu_info.spi_wr_state = remo_imu_spi_receive(LSM6DSV_TEMP_OUTL_20, 
-                                (uint8_t *)&imu_params.lsm6dsv_params.temp_output.types.output_l, 14);
-            
-            accel_temp[0] = imu_params.lsm6dsv_params.accel_output[0].which_type;
-            accel_temp[1] = imu_params.lsm6dsv_params.accel_output[1].which_type;
-            accel_temp[2] = imu_params.lsm6dsv_params.accel_output[2].which_type;
-				
-            imu_info.temp_smp = (imu_params.lsm6dsv_params.temp_output.which_type*25 >> 6) + 2500;
-            
-            gyro_temp[0] = imu_params.lsm6dsv_params.gyro_output[0].which_type;
-            gyro_temp[1] = imu_params.lsm6dsv_params.gyro_output[1].which_type;
-            gyro_temp[2] = imu_params.lsm6dsv_params.gyro_output[2].which_type;
-            break;
-        default:
-            break;
-    }
-
-		
-			if ((abs(gyro_temp[0]) == 0x8000 && abs(gyro_temp[1]) == 0x8000) || (abs(gyro_temp[0]) == 0x8000 && abs(gyro_temp[2]) == 0x8000) || \
-				(abs(gyro_temp[2]) == 0x8000 && abs(gyro_temp[1]) == 0x8000))
-		{
-				imu_info.spi_wr_state = 20;
-		}
-
-    // imu放置的方位变换
+    //imu_info.spi_wr_state = remo_imu_spi_receive_simple(LSM6DSVD_STATUS_REG_1E, 
+    //            (uint8_t *)&imu_params.lsm6dsvd_params.status_reg.which_type, 1);
+    //if (!imu_params.lsm6dsvd_params.status_reg.types.accel_da || !imu_params.lsm6dsvd_params.status_reg.types.gyro_da)
+    //{
+    //    return;
+    //}
     
-    if (abs(gyro_temp[0]) > 200 || abs(gyro_temp[1]) > 200 || abs(gyro_temp[2]) > 200)
+    if (schedule_ptmr_state % 2 == IMU_ACCEL_SAMPLE_SCHD_INDEX)
     {
-        gyro_temp_cnt ++;
+        imu_info.spi_wr_state = remo_imu_spi_receive_simple(LSM6DSVD_TEMP_OUTL_20, 
+                    (uint8_t *)&imu_params.lsm6dsvd_params.temp_output.types.output_l, 14);
+
+        accel_temp[0] = imu_params.lsm6dsvd_params.accel_output[0].which_type;
+        accel_temp[1] = imu_params.lsm6dsvd_params.accel_output[1].which_type;
+        accel_temp[2] = imu_params.lsm6dsvd_params.accel_output[2].which_type;
+        imu_info.temp_smp = (imu_params.lsm6dsvd_params.temp_output.which_type*25 >> 6) + 2500;
+    }
+    else 
+    {
+        imu_info.spi_wr_state = remo_imu_spi_receive_simple(LSM6DSVD_GYRO_XOUTL_22, 
+                    (uint8_t *)&imu_params.lsm6dsvd_params.gyro_output[0].which_type, 6);
     }
   
-    imu_info.accel_smp[0] = -accel_temp[2] - imu_info.accel_offset[0];
-    imu_info.accel_smp[1] = accel_temp[0] - imu_info.accel_offset[1];
-    imu_info.accel_smp[2] = -accel_temp[1] - imu_info.accel_offset[2];
+    gyro_temp[0] = imu_params.lsm6dsvd_params.gyro_output[0].which_type;
+    gyro_temp[1] = imu_params.lsm6dsvd_params.gyro_output[1].which_type;
+    gyro_temp[2] = imu_params.lsm6dsvd_params.gyro_output[2].which_type;
+  
+    imu_info.accel_smp[0] = -accel_temp[0] - imu_info.accel_offset[0];
+    imu_info.accel_smp[1] = accel_temp[1] - imu_info.accel_offset[1];
+    imu_info.accel_smp[2] = accel_temp[2] - imu_info.accel_offset[2];
 
     imu_info.gyro_smp[0] = -gyro_temp[2] - imu_info.gyro_offset[0];
-    imu_info.gyro_smp[1] = gyro_temp[0] - imu_info.gyro_offset[1];
-    imu_info.gyro_smp[2] = -gyro_temp[1] - imu_info.gyro_offset[2];
+    imu_info.gyro_smp[1] = gyro_temp[1] - imu_info.gyro_offset[1];
+    imu_info.gyro_smp[2] = gyro_temp[0] - imu_info.gyro_offset[2];
 
     
-    
-    if (gyro_test.flag == 1)
-    {
-        gyro_test.deg += (float)(imu_info.gyro_smp[1]) * gyro_test.dt/ 16.384f;
-    }
 
-	imu_info.accel_correct[0] = imu_info.accel_smp[0] * imu_info.accel_trans_matrix[0] +
-						imu_info.accel_smp[1] * imu_info.accel_trans_matrix[1] +
-						imu_info.accel_smp[2] * imu_info.accel_trans_matrix[2];
-	imu_info.accel_correct[1] = imu_info.accel_smp[0] * imu_info.accel_trans_matrix[3] +
-						imu_info.accel_smp[1] * imu_info.accel_trans_matrix[4] +
-						imu_info.accel_smp[2] * imu_info.accel_trans_matrix[5];
-	imu_info.accel_correct[2] = imu_info.accel_smp[0] * imu_info.accel_trans_matrix[6] +
-						imu_info.accel_smp[1] * imu_info.accel_trans_matrix[7] +
-						imu_info.accel_smp[2] * imu_info.accel_trans_matrix[8];
+    imu_info.accel_correct[0] = imu_info.accel_smp[0] * imu_info.accel_trans_matrix[0] +
+                                imu_info.accel_smp[1] * imu_info.accel_trans_matrix[1] +
+                                imu_info.accel_smp[2] * imu_info.accel_trans_matrix[2];
+    imu_info.accel_correct[1] = imu_info.accel_smp[0] * imu_info.accel_trans_matrix[3] +
+                                imu_info.accel_smp[1] * imu_info.accel_trans_matrix[4] +
+                                imu_info.accel_smp[2] * imu_info.accel_trans_matrix[5];
+    imu_info.accel_correct[2] = imu_info.accel_smp[0] * imu_info.accel_trans_matrix[6] +
+                                imu_info.accel_smp[1] * imu_info.accel_trans_matrix[7] +
+                                imu_info.accel_smp[2] * imu_info.accel_trans_matrix[8];
 
-	imu_info.temp_correct = imu_info.temp_smp;// - TEMPERATURE_OFFSET;
+    imu_info.temp_correct = imu_info.temp_smp;// - TEMPERATURE_OFFSET;
 
-	gyro_correct[0] = imu_info.gyro_smp[0] * imu_info.gyro_trans_matrix[0] +
-						imu_info.gyro_smp[1] * imu_info.gyro_trans_matrix[1] +
-						imu_info.gyro_smp[2] * imu_info.gyro_trans_matrix[2];
-	gyro_correct[1] = imu_info.gyro_smp[0] * imu_info.gyro_trans_matrix[3] +
-						imu_info.gyro_smp[1] * imu_info.gyro_trans_matrix[4] +
-						imu_info.gyro_smp[2] * imu_info.gyro_trans_matrix[5];
-	gyro_correct[2] = imu_info.gyro_smp[0] * imu_info.gyro_trans_matrix[6] +
-						imu_info.gyro_smp[1] * imu_info.gyro_trans_matrix[7] +
-						imu_info.gyro_smp[2] * imu_info.gyro_trans_matrix[8];
+    gyro_correct[0] = imu_info.gyro_smp[0] * imu_info.gyro_trans_matrix[0] +
+                      imu_info.gyro_smp[1] * imu_info.gyro_trans_matrix[1] +
+                      imu_info.gyro_smp[2] * imu_info.gyro_trans_matrix[2];
+    gyro_correct[1] = imu_info.gyro_smp[0] * imu_info.gyro_trans_matrix[3] +
+                      imu_info.gyro_smp[1] * imu_info.gyro_trans_matrix[4] +
+                      imu_info.gyro_smp[2] * imu_info.gyro_trans_matrix[5];
+    gyro_correct[2] = imu_info.gyro_smp[0] * imu_info.gyro_trans_matrix[6] +
+                      imu_info.gyro_smp[1] * imu_info.gyro_trans_matrix[7] +
+                      imu_info.gyro_smp[2] * imu_info.gyro_trans_matrix[8];
 						
     imu_info.gyro_fine_correct[0] = gyro_correct[0] - imu_info.gyro_fine_offset[0];
     imu_info.gyro_fine_correct[1] = gyro_correct[1] - imu_info.gyro_fine_offset[1];
@@ -422,7 +393,7 @@ void remo_imu_update(void)
 	
 
 
-    imu_info.data_reflash_flag = true;
+    //imu_info.data_reflash_flag = true;
     
 
 }
@@ -447,6 +418,11 @@ static uint8_t remo_imu_spi_send(uint8_t cmd, uint8_t *data, uint8_t len)
 static uint8_t remo_imu_spi_receive(uint8_t cmd, uint8_t *data, uint8_t len)
 {
     return bsp_imu_spi_receive(cmd|0x80, 0, data, len);
+}
+
+static uint8_t remo_imu_spi_receive_simple(uint8_t cmd, uint8_t *data, uint8_t len)
+{
+    return bsp_imu_spi_receive_simple(cmd|0x80, 0, data, len);
 }
 
 /************************************************************************************************
@@ -682,6 +658,11 @@ void remo_imu_set_fine_offset(float *fine_offset)
     imu_info.gyro_fine_offset[1] = fine_offset[1]*imu_gyro_to_deg;
     imu_info.gyro_fine_offset[2] = fine_offset[2]*imu_gyro_to_deg;
 
+}
+
+bool remo_imu_get_run_normal_flag(void)
+{
+    return imu_info.run_normal_flag;
 }
 
 float remo_imu_get_gyro_deg(uint8_t index)

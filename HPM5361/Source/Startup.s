@@ -130,6 +130,19 @@ START_FUNC Reset_Handler
         call    _init_ext_ram
 #endif
 
+#ifdef CONFIG_NOT_ENABLE_ICACHE
+        call    l1c_ic_disable
+#else
+        call    l1c_ic_enable
+#endif
+#ifdef CONFIG_NOT_ENABLE_DCACHE
+        call    l1c_dc_invalidate_all
+        call    l1c_dc_disable
+#else
+        call    l1c_dc_enable
+        call    l1c_dc_invalidate_all
+#endif
+
 #ifndef __NO_SYSTEM_INIT
         //
         // Call system_init

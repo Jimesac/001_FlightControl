@@ -5,18 +5,17 @@
 #include "hpm_clock_drv.h"
 #include "hpm_gptmr_drv.h"
 #include "hpm_interrupt.h"
+#include "user_config.h"
 
-#define TIMER_SCHEDULE_FREQ   (2000)
+#define TIMER_SCHEDULE_FREQ   (SELTIMER_SCHEDULE_FREQ)
 
 #define BOARD_GPTMR_CLOCK_BASE       HPM_GPTMR3
 #define BOARD_GPTMR_CLOCK_GPTMR_CH   (0)
 #define BOARD_GPTMR_CLOCK_CLK_NAME   (clock_gptmr3)
 
 #define BOARD_PTMR_SCHEDULE_BASE      HPM_GPTMR2
-#define BOARD_PTMR_SCHEDULE_PTMR_CH   (1)
+#define BOARD_PTMR_SCHEDULE_PTMR_CH   (2)
 #define BOARD_PTMR_SCHEDULE_CLK_NAME  clock_gptmr2
-#define BOARD_PTMR_SCHEDULE_IRQ       IRQn_GPTMR2
-
 
 void bsp_timer_init(void);
 
