@@ -213,6 +213,9 @@ void remo_cali_init(void);
 void remo_cali_set_cali_state(cali_state_t state);
 
 void remo_cali_run(void);
+
+void remo_cali_reflash_imu_gyro_offset(int16_t gyrox_offet, int16_t gyroy_offet, int16_t gyroz_offet);
+
 uint8_t remo_cali_get_velo_euler_flag(void);
 bool remo_cali_get_motor_run_cali_flag(void);
 bool remo_cali_get_elec_angle_flag(void);

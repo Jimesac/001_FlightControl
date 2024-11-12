@@ -17,6 +17,8 @@
 #define BOARD_PTMR_SCHEDULE_PTMR_CH   (2)
 #define BOARD_PTMR_SCHEDULE_CLK_NAME  clock_gptmr2
 
+extern schedule_state_t schedule_ptmr_state;
+
 void bsp_timer_init(void);
 
 void bsp_timer_schedule_reset_update_flag(void);

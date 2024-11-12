@@ -34,6 +34,16 @@ struct {
     .el_align_flag = {false, false, false},
 };
 
+struct{
+    uint8_t status;
+    int16_t temp;
+    int16_t deg;
+    uint16_t mag_xy_data;
+    uint16_t mag_z_data;
+    float mag_xy_mt;
+    float mag_z_mt;
+}kth5701_data;
+
 int16_t mag_encoder_median_buf[MAG_ENCODER_MEDIAN_SIZE] = {0};
 uint8_t mag_encoder_median_cnt;
 
@@ -83,19 +93,43 @@ void angle_encoder_update(void)
     float hall_deg_temp;
     const float *euler_angle = ahrs_get_euler_deg_ptr();
 
-    bsp_magencoder_imu_spi_set_clock_div(magencoder_spi_div);
-    // 第一个字节是状态，2、3是16位温度，4、5是16位角度，6、7是16位平面磁场强度，8、9是Z轴磁场强度
-    bsp_magencoder_spi_receive_simple(0x4F, 0, mag_data, 5);
-    mag_angle_temp =  (int16_t)((mag_data[3] << 8) + mag_data[4]);
-    //bsp_magencoder_spi_receive_simple(0x52, 0, angle1, 6);
-    //joint_state.joint_deg_raw[YAW] =  (int16_t)((angle1[0] << 8) + angle1[1]);
+    static uint32_t update_cnt = 0;
+    uint8_t update_index[2] = {0};
 
-    mag_encoder_median_buf[mag_encoder_median_cnt] = mag_angle_temp;
-    if (++mag_encoder_median_cnt >= MAG_ENCODER_MEDIAN_SIZE) mag_encoder_median_cnt = 0;
-    mag_angle_temp = filter_median_i16w5(mag_encoder_median_buf);
+    update_cnt++;
+    
+    if (update_cnt % 2 == 0)
+    {
+        bsp_magencoder_imu_spi_set_clock_div(magencoder_spi_div);
+        // 第一个字节是状态，2、3是16位温度，4、5是16位角度，6、7是16位平面磁场强度，8、9是Z轴磁场强度
+#if 1
+        bsp_magencoder_spi_receive_simple(0x4F, 0, mag_data, 9);
+        kth5701_data.deg =  ((int16_t)mag_data[3] << 8) + mag_data[4];
+        kth5701_data.mag_xy_data = ((uint16_t)mag_data[5] << 8) + mag_data[6];
+        kth5701_data.mag_z_data = ((uint16_t)mag_data[7] << 8) + mag_data[8];
+        kth5701_data.mag_xy_mt = (float)kth5701_data.mag_xy_data*0.60725/65.5f;
+        kth5701_data.mag_z_mt = (float)kth5701_data.mag_z_data*0.60725/102.0f;
+#else
+        bsp_magencoder_spi_receive_simple(0x42, 0, mag_data, 3);
+        kth5701_data.deg =  ((int16_t)mag_data[1] << 8) + mag_data[2];
+#endif
+        kth5701_data.status = mag_data[0];
+
+        mag_encoder_median_buf[mag_encoder_median_cnt] = kth5701_data.deg;
+        if (++mag_encoder_median_cnt >= MAG_ENCODER_MEDIAN_SIZE) mag_encoder_median_cnt = 0;
+        mag_angle_temp = filter_median_i16w5(mag_encoder_median_buf);
+
+        update_index[0] = 2;
+        update_index[1] = 3;
+    }
+    else 
+    {
+        update_index[0] = 0;
+        update_index[1] = 2;
+    }
     
     // hall 
-    for (i = 0; i < 3; i++)
+    for (i = update_index[0]; i < update_index[1]; i++)
     {
         if (i < 2)
         {
@@ -126,7 +160,7 @@ void angle_encoder_update(void)
         joint_state.joint_deg_raw[i] = hall_info[i].raw_data_new * DEG360_TO_I16;
     }
   
-    for (i = 0; i < 3; i++)
+    for (i = update_index[0]; i < update_index[1]; i++)
     {
         angle_temp = joint_state.joint_deg_raw[i] - joint_state.joint_deg_offset[i];
 
@@ -268,18 +302,48 @@ static uint8_t remo_spi_register_KTH5701_init(void)
     uint8_t temp_KTH5701[3]; 
     uint8_t KTH5701_ID[3];
 
+    union
+    {
+        uint16_t which_type;
+        struct{
+            uint16_t digCtrl: 3;
+            uint16_t gain: 4;
+            uint16_t extTrig: 1;
+            uint16_t trigPushSel: 1;
+            uint16_t magnOsr: 2;
+            uint16_t tempOsr: 2;
+            uint16_t wakeSel: 1;
+            uint16_t AplaneSel: 2;
+        }types;
+    }reg_28;
+
     //remo_spi_register_read_bytes(0x80, 1, temp_KTH5701, ROLL_ANGLE_SPI_TYPE);
     //remo_spi_register_read_bytes(0xF0, 0, temp_KTH5701, ROLL_ANGLE_SPI_TYPE);
     bsp_magencoder_spi_receive(0x80, 0, temp_KTH5701, 1);
 
+    //ADC 的总取点数 =32x 2^magnOsr x (2^digCtrl + 2)，某一轴磁场信号测量时间= (ADC的取点数 + 69) * 1μs
+    reg_28.which_type = 0;
+    reg_28.types.digCtrl = 3;
+    reg_28.types.gain = 4;
+    reg_28.types.magnOsr = 0;
+
     clock_cpu_delay_ms(10);
-    remo_spi_register_KTH5701_write(0xc000, 27);
+    remo_spi_register_KTH5701_write(0xc000, 0x1B);
     clock_cpu_delay_ms(10);
-    remo_spi_register_KTH5701_write(0x0727, 28);
+    remo_spi_register_KTH5701_write(reg_28.which_type, 0x1C);
     clock_cpu_delay_ms(10);	
-    remo_spi_register_KTH5701_write(0x00C3, 29);
+    remo_spi_register_KTH5701_write(0x00C3, 0x1D);
     clock_cpu_delay_ms(10);	
-    remo_spi_register_KTH5701_write(0x8000, 30);
+    remo_spi_register_KTH5701_write(0x8000, 0x1E);
+
+    //clock_cpu_delay_ms(10);
+    //remo_spi_register_KTH5701_write(0xc000, 0x1B);
+    //clock_cpu_delay_ms(10);
+    //remo_spi_register_KTH5701_write(0x0727, 0x1C);
+    //clock_cpu_delay_ms(10);	
+    //remo_spi_register_KTH5701_write(0x00C3, 0x1D);
+    //clock_cpu_delay_ms(10);	
+    //remo_spi_register_KTH5701_write(0x8000, 0x1E);
 
     clock_cpu_delay_ms(10);
     //remo_spi_register_read_bytes(0x1F,1,temp_KTH5701,ROLL_ANGLE_SPI_TYPE);

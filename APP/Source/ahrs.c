@@ -4,6 +4,7 @@
 #include "ahrs.h"
 #include "misc.h"
 #include "angle_encoder.h"
+#include "calibrate.h"
 #include "bsp_timer.h"
 #include "filter.h"
 
@@ -202,7 +203,7 @@ void ahrs_init(void)
     const float *accel_smp = remo_imu_get_accel_corr();
     const int16_t *gyro_raw = remo_imu_get_gyro_smp();
     static uint32_t init_cnt = 0;
-	
+
     if (ahrs_status.init_finished_flag) return;
 
     if (!init_flag)
@@ -289,9 +290,9 @@ void ahrs_init(void)
                 gyro_var[1][j] = gyro_mean2[j] / AHRS_INIT_SAMPLE_HALF_NUM - gyro_mean[0][i] * gyro_mean[0][i];
             }
             if ((fabs(gyro_mean[0][0]) < 100 && fabs(gyro_mean[0][1]) < 100 && fabs(gyro_mean[0][2]) < 200) && \
-                (fabs(gyro_mean[1][0] - gyro_mean[0][0]) <= 3 && fabs(gyro_mean[1][1] - gyro_mean[0][1]) <= 3 && \
-                fabs(gyro_mean[1][2] - gyro_mean[0][2]) <= 3) && \
-                (gyro_var[0][0] < 2000 && gyro_var[0][1] < 2000 && gyro_var[0][2] < 2000))
+                (fabs(gyro_mean[1][0] - gyro_mean[0][0]) <= 5 && fabs(gyro_mean[1][1] - gyro_mean[0][1]) <= 5 && \
+                fabs(gyro_mean[1][2] - gyro_mean[0][2]) <= 5) && \
+                (gyro_var[0][0] < 5000 && gyro_var[0][1] < 5000 && gyro_var[0][2] < 5000))
             {
                 for (j = 0; j < 3 ; j++)
                 {
@@ -301,20 +302,24 @@ void ahrs_init(void)
 			
                 remo_imu_set_gyro_bias(gyro_mean[0][0], gyro_mean[0][1], gyro_mean[0][2]);
                 remo_imu_set_fine_offset(gyro_fine_offset);
+
+                
+                gyro_offset_init[0] = gyro_mean[0][0];
+                gyro_offset_init[1] = gyro_mean[0][1];
+                gyro_offset_init[2] = gyro_mean[0][2];
+                remo_imu_set_gyro_bias(gyro_offset_init[0], gyro_offset_init[1], gyro_offset_init[2]);
                 if (fabs(gyro_offset_init[0] - gyro_mean[0][0]) >=2 || fabs(gyro_offset_init[1] - gyro_mean[0][1]) >=2 ||\
-                        fabs(gyro_offset_init[2] - gyro_mean[0][2]) >=2)
+                    fabs(gyro_offset_init[2] - gyro_mean[0][2]) >=2)
                 {
-                    gyro_offset_init[0] = gyro_mean[0][0];
-                    gyro_offset_init[1] = gyro_mean[0][1];
-                    gyro_offset_init[2] = gyro_mean[0][2];
-                    //remo_flash_gyro_refresh(GYRO_RST_ADDR_OFFSET, (const uint32_t *)&gyro_offset_init[0], 3);
+                    remo_cali_reflash_imu_gyro_offset(gyro_offset_init[0], gyro_offset_init[1], gyro_offset_init[2]);
                 }
+                
             
                 ahrs_status.init_finished_flag = true;
             }
             else
             {
-                //remo_imu_set_gyro_bias(gyro_offset_init[0], gyro_offset_init[1], gyro_offset_init[2]);
+                remo_imu_set_gyro_bias(gyro_offset_init[0], gyro_offset_init[1], gyro_offset_init[2]);
             }
     #endif
         

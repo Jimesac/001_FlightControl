@@ -52,24 +52,31 @@
   <Watches active="1" update="Twice a Second">
    <Watchpoint expression="adc_hall_filter" name="adc_hall_filter" radix="10" linenumber="276" filename="BSP/Source/bsp_adc.c"/>
    <Watchpoint expression="adc_hall_median" name="adc_hall_median" radix="10" linenumber="234" filename="BSP/Source/bsp_adc.c"/>
-   <Watchpoint expression="ahrs_status" name="ahrs_status" radix="-1" linenumber="344" filename="APP/Source/ahrs.c"/>
-   <Watchpoint expression="el_angle_info" name="el_angle_info" radix="-1" linenumber="142" filename="APP/Source/angle_encoder.c"/>
+   <Watchpoint expression="ahrs_status" name="ahrs_status" radix="-1" linenumber="349" filename="APP/Source/ahrs.c"/>
+   <Watchpoint expression="el_angle_info" name="el_angle_info" radix="-1" linenumber="184" filename="APP/Source/angle_encoder.c"/>
    <Watchpoint expression="esc_ctrl" name="esc_ctrl" radix="10" linenumber="952" filename="APP/Source/esc_ctrl.c"/>
-   <Watchpoint expression="hall_info" name="hall_info" radix="-1" linenumber="107" filename="APP/Source/angle_encoder.c"/>
+   <Watchpoint expression="hall_info" name="hall_info" radix="-1" linenumber="149" filename="APP/Source/angle_encoder.c"/>
    <Watchpoint expression="imu_info" name="imu_info" radix="10" linenumber="284" filename="APP/Source/imu.c"/>
-   <Watchpoint expression="joint_state" name="joint_state" radix="10" linenumber="149" filename="APP/Source/angle_encoder.c"/>
-   <Watchpoint expression="joint_use_euler_flag" name="joint_use_euler_flag" radix="-1" linenumber="95" filename="APP/Source/angle_encoder.c"/>
+   <Watchpoint expression="joint_state" name="joint_state" radix="10" linenumber="191" filename="APP/Source/angle_encoder.c"/>
+   <Watchpoint expression="joint_use_euler_flag" name="joint_use_euler_flag" radix="-1" linenumber="137" filename="APP/Source/angle_encoder.c"/>
    <Watchpoint expression="main_cnt" name="main_cnt" radix="10" linenumber="127" filename="main.c"/>
    <Watchpoint expression="main_test_us" name="main_test_us" radix="10" linenumber="139" filename="main.c"/>
    <Watchpoint expression="pwm_yaw_cmp" name="pwm_yaw_cmp" radix="-1" linenumber="189" filename="BSP/Source/bsp_pwm.c"/>
    <Watchpoint expression="pwm_yaw_dutycycle_ptr" name="pwm_yaw_dutycycle_ptr" radix="-1" linenumber="189" filename="BSP/Source/bsp_pwm.c"/>
    <Watchpoint expression="svpwm_params" name="svpwm_params" radix="10" linenumber="163" filename="APP/Source/svpwm.c"/>
    <Watchpoint expression="flash_test" name="flash_test" radix="-1" linenumber="97" filename="main.c"/>
-   <Watchpoint expression="cali_status" name="cali_status" radix="10" linenumber="322" filename="APP/Source/calibrate.c"/>
-   <Watchpoint expression="joint_data_fit_info" name="joint_data_fit_info" radix="10" linenumber="405" filename="APP/Source/calibrate.c"/>
+   <Watchpoint expression="cali_status" name="cali_status" radix="10" linenumber="327" filename="APP/Source/calibrate.c"/>
+   <Watchpoint expression="joint_data_fit_info" name="joint_data_fit_info" radix="10" linenumber="410" filename="APP/Source/calibrate.c"/>
    <Watchpoint expression="vel_ctrl" name="vel_ctrl" radix="-1" linenumber="321" filename="APP/Source/ctrl_loop.c"/>
    <Watchpoint expression="pos_ctrl" name="pos_ctrl" radix="-1" linenumber="244" filename="APP/Source/ctrl_loop.c"/>
    <Watchpoint expression="schedule_ptmr_state" name="schedule_ptmr_state" radix="-1" linenumber="145" filename="main.c"/>
+   <Watchpoint expression="kth5701_data" name="kth5701_data" radix="-1" linenumber="117" filename="APP/Source/angle_encoder.c"/>
+   <Watchpoint expression="jacob_matrix" name="jacob_matrix" radix="-1" linenumber="455" filename="APP/Source/ctrl_loop.c"/>
+   <Watchpoint expression="imu_params" name="imu_params" radix="-1" linenumber="337" filename="APP/Source/imu.c"/>
+   <Watchpoint expression="cali_params" name="cali_params" radix="-1" linenumber="453" filename="APP/Source/calibrate.c"/>
+   <Watchpoint expression="gyro_mean" name="gyro_mean" radix="-1" linenumber="292" filename="APP/Source/ahrs.c"/>
+   <Watchpoint expression="gyro_offset_init" name="gyro_offset_init" radix="10" linenumber="307" filename="APP/Source/ahrs.c"/>
+   <Watchpoint expression="gyro_var" name="gyro_var" radix="-1" linenumber="295" filename="APP/Source/ahrs.c"/>
   </Watches>
  </Watch1>
  <Watch2>
@@ -82,36 +89,36 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="63" useTextEdit="1" path="main.c" left="0" selected="1" top="48" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="68" useTextEdit="1" path="main.c" left="0" top="49" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="44" y="118" useTextEdit="1" path="APP/Source/logger.c" left="0" top="102" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="468" useTextEdit="1" path="APP/Source/imu.c" left="0" top="462" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="461" useTextEdit="1" path="APP/Source/imu.c" left="0" top="451" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="62" y="16" useTextEdit="1" path="D:/Program Files/SEGGER/SEGGER Embedded Studio 8.14/include/stdarg.h" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="11" y="9" useTextEdit="1" path="APP/Include/logger.h" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="190" useTextEdit="1" path="BSP/Source/bsp_uart.c" left="0" top="171" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="48" y="31" useTextEdit="1" path="BSP/Include/bsp_uart.h" left="0" top="5" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="23" useTextEdit="1" path="APP/Source/svpwm.c" left="0" top="0" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="214" useTextEdit="1" path="APP/Source/svpwm.c" left="0" top="172" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="46" y="15" useTextEdit="1" path="BSP/Source/bsp_adc.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="9" y="39" useTextEdit="1" path="BSP/Source/bsp_spi.c" left="0" top="22" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="77" y="228" useTextEdit="1" path="BSP/Source/bsp_spi.c" left="0" top="223" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="1" y="13" useTextEdit="1" path="BSP/Source/bsp_dma.c" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="10" useTextEdit="1" path="BSP/Include/bsp_dma.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="49" y="84" useTextEdit="1" path="BSP/Source/bsp_timer.c" left="0" top="70" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="15" y="0" useTextEdit="1" path="BSP/Source/bsp_timer.c" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="2" y="38" useTextEdit="1" path="HPM5361/Device/Include/hpm_uart_regs.h" left="0" top="15" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="46" y="109" useTextEdit="1" path="HPM5361/Source/Startup.s" left="0" top="86" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="189" useTextEdit="1" path="HPM5361/Source/SEGGER_RV32_Startup.s" left="0" top="167" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="28" y="126" useTextEdit="1" path="HPM5361/Source/Startup.s" left="0" top="118" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="189" useTextEdit="1" path="HPM5361/Source/SEGGER_RV32_Startup.s" left="0" top="189" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="2" y="620" useTextEdit="1" path="HPM5361/Device/Include/hpm_dmav2_drv.h" left="0" top="609" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="133" y="110" useTextEdit="1" path="D:/Program Files/SEGGER/SEGGER Embedded Studio 8.14/include/stdlib.h" left="0" top="94" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="24" useTextEdit="1" path="BSP/Include/bsp_spi.h" left="0" top="16" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="64" y="15" useTextEdit="1" path="BSP/Include/bsp_spi.h" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="42" y="383" useTextEdit="1" path="HPM5361/Device/Source/drivers/hpm_spi_drv.c" left="0" top="364" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="0" useTextEdit="1" path="APP/Source/esc_ctrl.c" left="0" top="0" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="25" y="231" useTextEdit="1" path="APP/Source/esc_ctrl.c" left="0" top="216" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="11" useTextEdit="1" path="APP/Include/esc_ctrl.h" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="13" y="0" useTextEdit="1" path="MISC/Source/ctrl.c" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="5" useTextEdit="1" path="MISC/Include/ctrl.h" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="19" y="3" useTextEdit="1" path="MISC/Include/misc.h" left="0" top="1" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="61" y="77" useTextEdit="1" path="APP/Include/ctrl_loop.h" left="0" top="64" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="562" useTextEdit="1" path="APP/Source/ctrl_loop.c" left="0" top="547" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="25" y="24" useTextEdit="1" path="APP/Include/user_config.h" left="0" top="21" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="31" y="548" useTextEdit="1" path="APP/Source/ahrs.c" left="0" top="534" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="42" y="145" useTextEdit="1" path="APP/Include/ahrs.h" left="0" top="121" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="47" y="444" useTextEdit="1" path="APP/Source/ctrl_loop.c" left="0" top="428" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="43" y="50" useTextEdit="1" path="APP/Include/user_config.h" left="0" top="27" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="304" useTextEdit="1" path="APP/Source/ahrs.c" left="0" selected="1" top="303" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="38" y="145" useTextEdit="1" path="APP/Include/ahrs.h" left="0" top="121" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="APP/Include/kinematics.h" left="0" top="48" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="17" y="6" useTextEdit="1" path="APP/Source/kinematics.c" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="23" y="160" useTextEdit="1" path="E:/HPM/SDK/hpm_sdk_v1.6.0/test_v1/HPM5361/Device/Source/drivers/hpm_spi_drv.c" left="0" top="137" codecName="UTF-8"/>
@@ -121,17 +128,17 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="1" y="500" useTextEdit="1" path="HPM5361/Device/Source/hpm_clock_drv.c" left="0" top="487" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="283" useTextEdit="1" path="HPM5361/Device/Include/hpm_gptmr_drv.h" left="0" top="264" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="23" y="291" useTextEdit="1" path="HPM5361/Device/Include/hpm_gptmr_regs.h" left="0" top="273" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="35" y="66" useTextEdit="1" path="APP/Source/angle_encoder.c" left="0" top="48" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="38" y="6310" useTextEdit="1" path="HPM5361/Compenets/hpm_math.h" left="0" top="8032" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="29" y="30" useTextEdit="1" path="APP/Include/angle_encoder.h" left="0" top="9" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="154" useTextEdit="1" path="APP/Source/angle_encoder.c" left="0" top="142" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="38" y="6310" useTextEdit="1" path="HPM5361/Compenets/hpm_math.h" left="0" top="6310" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="41" useTextEdit="1" path="APP/Include/angle_encoder.h" left="0" top="15" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="490" useTextEdit="1" path="HPM5361/Device/Include/hpm_soc.h" left="0" top="476" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="50" y="17" useTextEdit="1" path="BSP/Include/bsp_timer.h" left="0" top="9" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="27" useTextEdit="1" path="BSP/Include/bsp_timer.h" left="0" top="7" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="63" y="40" useTextEdit="1" path="APP/Include/imu_lsm6dsvd.h" left="0" top="22" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="21" y="18" useTextEdit="1" path="APP/Include/imu.h" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="47" y="14" useTextEdit="1" path="APP/Include/svpwm.h" left="0" top="1" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="2" y="51" useTextEdit="1" path="HPM5361/Device/Include/hpm_gpio_drv.h" left="0" top="24" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="69" y="211" useTextEdit="1" path="BSP/Source/bsp_pwm.c" left="0" top="193" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="58" useTextEdit="1" path="BSP/Include/bsp_pwm.h" left="0" top="18" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="67" useTextEdit="1" path="BSP/Source/bsp_pwm.c" left="0" top="67" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="47" y="40" useTextEdit="1" path="BSP/Include/bsp_pwm.h" left="0" top="18" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="16" y="101" useTextEdit="1" path="HPM5361/Device/Source/drivers/hpm_pcfg_drv.c" left="0" top="63" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="46" y="161" useTextEdit="1" path="HPM5361/Device/Include/hpm_usb_drv.h" left="0" top="144" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="60" y="54" useTextEdit="1" path="HPM5361/Device/Include/hpm_usb_regs.h" left="0" top="39" codecName="UTF-8"/>
@@ -141,13 +148,14 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="25" y="8" useTextEdit="1" path="BSP/Include/bsp_adc.h" left="0" top="8" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="5" y="31" useTextEdit="1" path="MISC/Source/fixed_point.c" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="17" y="126" useTextEdit="1" path="MISC/Include/fixed_point.h" left="0" top="86" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="59" useTextEdit="1" path="BSP/Source/bsp_flash.c" left="0" top="51" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="107" y="64" useTextEdit="1" path="BSP/Source/bsp_flash.c" left="0" top="51" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="45" y="15" useTextEdit="1" path="BSP/Include/bsp_flash.h" left="0" top="0" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="48" y="541" useTextEdit="1" path="HPM5361/Device/Include/hpm_romapi.h" left="0" top="531" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="29" y="197" useTextEdit="1" path="APP/Include/calibrate.h" left="0" top="180" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="248" useTextEdit="1" path="HPM5361/Device/Include/hpm_ioc_regs.h" left="0" top="231" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="237" useTextEdit="1" path="MISC/Source/misc.c" left="0" top="198" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="28" y="536" useTextEdit="1" path="APP/Source/calibrate.c" left="0" top="631" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="242" useTextEdit="1" path="APP/Include/calibrate.h" left="0" top="204" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="248" useTextEdit="1" path="HPM5361/Device/Include/hpm_ioc_regs.h" left="0" top="220" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="237" useTextEdit="1" path="MISC/Source/misc.c" left="0" top="198" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="100" y="589" useTextEdit="1" path="APP/Source/calibrate.c" left="5" top="571" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="3" y="47" useTextEdit="1" path="HPM5361/Device/Include/hpm_csr_drv.h" left="0" top="39" codecName="UTF-8"/>
  </Files>
  <EMStudioWindow activeProject="test_v1" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="G:/UAV_gimbal/program/test_v1/APP/Source" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

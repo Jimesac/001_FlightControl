@@ -75,7 +75,7 @@
       link_linker_script_file="$(ProjectDir)/HPM5361/Source/flash_xip.icf"
       link_standard_libraries_configuration_prefix=""
       linker_additional_files="$(ProjectDir)/HPM5361/Compenets/nds_dsp/libdspf.a"
-      rv_arch_ext=""
+      rv_arch_ext="_xv5"
       rv_arch_zba="No"
       rv_arch_zbb="No"
       rv_arch_zbc="No"
