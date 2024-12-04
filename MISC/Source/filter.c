@@ -368,7 +368,7 @@ uint32_t filter_median_u32w7( uint32_t *x)
 	return 0;
 }
 
-uint16_t filter_median_u16w7( uint16_t *x)
+uint16_t filter_median_u16w7( uint16_t *x)	// 窗口为7的uint16类型中值滤波,求中值
 {
 	uint8_t fx[7] = {0};
 	uint8_t i=0, j=0;

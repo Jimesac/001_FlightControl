@@ -21,14 +21,8 @@
  <Project>
   <ProjectSessionItem path="test_v1"/>
   <ProjectSessionItem path="test_v1;test_v1"/>
-  <ProjectSessionItem path="test_v1;test_v1;APP"/>
   <ProjectSessionItem path="test_v1;test_v1;BSP"/>
-  <ProjectSessionItem path="test_v1;test_v1;Device Files"/>
-  <ProjectSessionItem path="test_v1;test_v1;Drives Files"/>
-  <ProjectSessionItem path="test_v1;test_v1;MISC"/>
-  <ProjectSessionItem path="test_v1;test_v1;Script Files"/>
   <ProjectSessionItem path="test_v1;test_v1;Source Files"/>
-  <ProjectSessionItem path="test_v1;test_v1;System Files"/>
  </Project>
  <Register1>
   <RegisterWindow visibleNodes="GPIO0/DI_GPIOA_VALUE;GPIO0/DI_GPIOB_VALUE;GPIO0/DI_GPIOX_VALUE;GPIO0/DI_GPIOY_VALUE;GPIO0/DO_GPIOA_VALUE;GPIO0/DO_GPIOA_SET;GPIO0/DO_GPIOA_CLEAR;GPIO0/DO_GPIOA_TOGGLE;GPIO0/DO_GPIOB_VALUE;GPIO0/DO_GPIOB_SET;GPIO0/DO_GPIOB_CLEAR;GPIO0/DO_GPIOB_TOGGLE;GPIO0/DO_GPIOX_VALUE;GPIO0/DO_GPIOX_SET;GPIO0/DO_GPIOX_CLEAR;GPIO0/DO_GPIOX_TOGGLE;GPIO0/DO_GPIOY_VALUE;GPIO0/DO_GPIOY_SET;GPIO0/DO_GPIOY_CLEAR;GPIO0/DO_GPIOY_TOGGLE;GPIO0/OE_GPIOA_VALUE;GPIO0/OE_GPIOA_SET;GPIO0/OE_GPIOA_CLEAR;GPIO0/OE_GPIOA_TOGGLE;GPIO0/OE_GPIOB_VALUE;GPIO0/OE_GPIOB_SET;GPIO0/OE_GPIOB_CLEAR;GPIO0/OE_GPIOB_TOGGLE;GPIO0/OE_GPIOX_VALUE;GPIO0/OE_GPIOX_SET;GPIO0/OE_GPIOX_CLEAR;GPIO0/OE_GPIOX_TOGGLE;GPIO0/OE_GPIOY_VALUE;GPIO0/OE_GPIOY_SET;GPIO0/OE_GPIOY_CLEAR;GPIO0/OE_GPIOY_TOGGLE;GPIO0/IF_GPIOA_VALUE;GPIO0/IF_GPIOB_VALUE;GPIO0/IF_GPIOX_VALUE;GPIO0/IF_GPIOY_VALUE;GPIO0/IE_GPIOA_VALUE;GPIO0/IE_GPIOA_SET;GPIO0/IE_GPIOA_CLEAR;GPIO0/IE_GPIOA_TOGGLE;GPIO0/IE_GPIOB_VALUE;GPIO0/IE_GPIOB_SET;GPIO0/IE_GPIOB_CLEAR;GPIO0/IE_GPIOB_TOGGLE;GPIO0/IE_GPIOX_VALUE;GPIO0/IE_GPIOX_SET;GPIO0/IE_GPIOX_CLEAR;GPIO0/IE_GPIOX_TOGGLE;GPIO0/IE_GPIOY_VALUE;GPIO0/IE_GPIOY_SET;GPIO0/IE_GPIOY_CLEAR;GPIO0/IE_GPIOY_TOGGLE;GPIO0/PL_GPIOA_VALUE;GPIO0/PL_GPIOA_SET;GPIO0/PL_GPIOA_CLEAR;GPIO0/PL_GPIOA_TOGGLE;GPIO0/PL_GPIOB_VALUE;GPIO0/PL_GPIOB_SET;GPIO0/PL_GPIOB_CLEAR;GPIO0/PL_GPIOB_TOGGLE;GPIO0/PL_GPIOX_VALUE;GPIO0/PL_GPIOX_SET;GPIO0/PL_GPIOX_CLEAR;GPIO0/PL_GPIOX_TOGGLE;GPIO0/PL_GPIOY_VALUE;GPIO0/PL_GPIOY_SET;GPIO0/PL_GPIOY_CLEAR;GPIO0/PL_GPIOY_TOGGLE;GPIO0/TP_GPIOA_VALUE;GPIO0/TP_GPIOA_SET;GPIO0/TP_GPIOA_CLEAR;GPIO0/TP_GPIOA_TOGGLE;GPIO0/TP_GPIOB_VALUE;GPIO0/TP_GPIOB_SET;GPIO0/TP_GPIOB_CLEAR;GPIO0/TP_GPIOB_TOGGLE;GPIO0/TP_GPIOX_VALUE;GPIO0/TP_GPIOX_SET;GPIO0/TP_GPIOX_CLEAR;GPIO0/TP_GPIOX_TOGGLE;GPIO0/TP_GPIOY_VALUE;GPIO0/TP_GPIOY_SET;GPIO0/TP_GPIOY_CLEAR;GPIO0/TP_GPIOY_TOGGLE;GPIO0/AS_GPIOA_VALUE;GPIO0/AS_GPIOA_SET;GPIO0/AS_GPIOA_CLEAR;GPIO0/AS_GPIOA_TOGGLE;GPIO0/AS_GPIOB_VALUE;GPIO0/AS_GPIOB_SET;GPIO0/AS_GPIOB_CLEAR;GPIO0/AS_GPIOB_TOGGLE;GPIO0/AS_GPIOX_VALUE;GPIO0/AS_GPIOX_SET;GPIO0/AS_GPIOX_CLEAR;GPIO0/AS_GPIOX_TOGGLE;GPIO0/AS_GPIOY_VALUE;GPIO0/AS_GPIOY_SET;GPIO0/AS_GPIOY_CLEAR;GPIO0/AS_GPIOY_TOGGLE;GPIO0/PD_GPIOA_VALUE;GPIO0/PD_GPIOA_SET;GPIO0/PD_GPIOA_CLEAR;GPIO0/PD_GPIOA_TOGGLE;GPIO0/PD_GPIOB_VALUE;GPIO0/PD_GPIOB_SET;GPIO0/PD_GPIOB_CLEAR;GPIO0/PD_GPIOB_TOGGLE;GPIO0/PD_GPIOX_VALUE;GPIO0/PD_GPIOX_SET;GPIO0/PD_GPIOX_CLEAR;GPIO0/PD_GPIOX_TOGGLE;GPIO0/PD_GPIOY_VALUE;GPIO0/PD_GPIOY_SET;GPIO0/PD_GPIOY_CLEAR;GPIO0/PD_GPIOY_TOGGLE" binaryNodes="" asciiNodes="" openNodes="GPIO0" name="test_v1_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -59,17 +53,17 @@
    <Watchpoint expression="imu_info" name="imu_info" radix="10" linenumber="284" filename="APP/Source/imu.c"/>
    <Watchpoint expression="joint_state" name="joint_state" radix="10" linenumber="191" filename="APP/Source/angle_encoder.c"/>
    <Watchpoint expression="joint_use_euler_flag" name="joint_use_euler_flag" radix="-1" linenumber="137" filename="APP/Source/angle_encoder.c"/>
-   <Watchpoint expression="main_cnt" name="main_cnt" radix="10" linenumber="127" filename="main.c"/>
-   <Watchpoint expression="main_test_us" name="main_test_us" radix="10" linenumber="139" filename="main.c"/>
+   <Watchpoint expression="main_cnt" name="main_cnt" radix="10" linenumber="130" filename="main.c"/>
+   <Watchpoint expression="main_test_us" name="main_test_us" radix="10" linenumber="142" filename="main.c"/>
    <Watchpoint expression="pwm_yaw_cmp" name="pwm_yaw_cmp" radix="-1" linenumber="189" filename="BSP/Source/bsp_pwm.c"/>
    <Watchpoint expression="pwm_yaw_dutycycle_ptr" name="pwm_yaw_dutycycle_ptr" radix="-1" linenumber="189" filename="BSP/Source/bsp_pwm.c"/>
    <Watchpoint expression="svpwm_params" name="svpwm_params" radix="10" linenumber="163" filename="APP/Source/svpwm.c"/>
-   <Watchpoint expression="flash_test" name="flash_test" radix="-1" linenumber="97" filename="main.c"/>
+   <Watchpoint expression="flash_test" name="flash_test" radix="-1" linenumber="100" filename="main.c"/>
    <Watchpoint expression="cali_status" name="cali_status" radix="10" linenumber="327" filename="APP/Source/calibrate.c"/>
    <Watchpoint expression="joint_data_fit_info" name="joint_data_fit_info" radix="10" linenumber="410" filename="APP/Source/calibrate.c"/>
    <Watchpoint expression="vel_ctrl" name="vel_ctrl" radix="-1" linenumber="321" filename="APP/Source/ctrl_loop.c"/>
    <Watchpoint expression="pos_ctrl" name="pos_ctrl" radix="-1" linenumber="244" filename="APP/Source/ctrl_loop.c"/>
-   <Watchpoint expression="schedule_ptmr_state" name="schedule_ptmr_state" radix="-1" linenumber="145" filename="main.c"/>
+   <Watchpoint expression="schedule_ptmr_state" name="schedule_ptmr_state" radix="-1" linenumber="148" filename="main.c"/>
    <Watchpoint expression="kth5701_data" name="kth5701_data" radix="-1" linenumber="117" filename="APP/Source/angle_encoder.c"/>
    <Watchpoint expression="jacob_matrix" name="jacob_matrix" radix="-1" linenumber="455" filename="APP/Source/ctrl_loop.c"/>
    <Watchpoint expression="imu_params" name="imu_params" radix="-1" linenumber="337" filename="APP/Source/imu.c"/>
@@ -89,73 +83,9 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="68" useTextEdit="1" path="main.c" left="0" top="49" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="44" y="118" useTextEdit="1" path="APP/Source/logger.c" left="0" top="102" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="461" useTextEdit="1" path="APP/Source/imu.c" left="0" top="451" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="62" y="16" useTextEdit="1" path="D:/Program Files/SEGGER/SEGGER Embedded Studio 8.14/include/stdarg.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="9" useTextEdit="1" path="APP/Include/logger.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="190" useTextEdit="1" path="BSP/Source/bsp_uart.c" left="0" top="171" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="48" y="31" useTextEdit="1" path="BSP/Include/bsp_uart.h" left="0" top="5" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="214" useTextEdit="1" path="APP/Source/svpwm.c" left="0" top="172" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="46" y="15" useTextEdit="1" path="BSP/Source/bsp_adc.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="77" y="228" useTextEdit="1" path="BSP/Source/bsp_spi.c" left="0" top="223" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="13" useTextEdit="1" path="BSP/Source/bsp_dma.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="10" useTextEdit="1" path="BSP/Include/bsp_dma.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="15" y="0" useTextEdit="1" path="BSP/Source/bsp_timer.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="38" useTextEdit="1" path="HPM5361/Device/Include/hpm_uart_regs.h" left="0" top="15" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="28" y="126" useTextEdit="1" path="HPM5361/Source/Startup.s" left="0" top="118" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="189" useTextEdit="1" path="HPM5361/Source/SEGGER_RV32_Startup.s" left="0" top="189" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="620" useTextEdit="1" path="HPM5361/Device/Include/hpm_dmav2_drv.h" left="0" top="609" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="133" y="110" useTextEdit="1" path="D:/Program Files/SEGGER/SEGGER Embedded Studio 8.14/include/stdlib.h" left="0" top="94" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="64" y="15" useTextEdit="1" path="BSP/Include/bsp_spi.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="42" y="383" useTextEdit="1" path="HPM5361/Device/Source/drivers/hpm_spi_drv.c" left="0" top="364" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="25" y="231" useTextEdit="1" path="APP/Source/esc_ctrl.c" left="0" top="216" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="11" useTextEdit="1" path="APP/Include/esc_ctrl.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="13" y="0" useTextEdit="1" path="MISC/Source/ctrl.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="5" useTextEdit="1" path="MISC/Include/ctrl.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="19" y="3" useTextEdit="1" path="MISC/Include/misc.h" left="0" top="1" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="61" y="77" useTextEdit="1" path="APP/Include/ctrl_loop.h" left="0" top="64" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="47" y="444" useTextEdit="1" path="APP/Source/ctrl_loop.c" left="0" top="428" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="43" y="50" useTextEdit="1" path="APP/Include/user_config.h" left="0" top="27" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="304" useTextEdit="1" path="APP/Source/ahrs.c" left="0" selected="1" top="303" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="38" y="145" useTextEdit="1" path="APP/Include/ahrs.h" left="0" top="121" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="APP/Include/kinematics.h" left="0" top="48" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="17" y="6" useTextEdit="1" path="APP/Source/kinematics.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="160" useTextEdit="1" path="E:/HPM/SDK/hpm_sdk_v1.6.0/test_v1/HPM5361/Device/Source/drivers/hpm_spi_drv.c" left="0" top="137" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="39" y="699" useTextEdit="1" path="HPM5361/Device/Include/hpm_spi_regs.h" left="0" top="678" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="8" useTextEdit="1" path="BSP/Source/bsp_led.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="24" y="22" useTextEdit="1" path="BSP/Include/bsp_led.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="500" useTextEdit="1" path="HPM5361/Device/Source/hpm_clock_drv.c" left="0" top="487" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="283" useTextEdit="1" path="HPM5361/Device/Include/hpm_gptmr_drv.h" left="0" top="264" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="291" useTextEdit="1" path="HPM5361/Device/Include/hpm_gptmr_regs.h" left="0" top="273" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="154" useTextEdit="1" path="APP/Source/angle_encoder.c" left="0" top="142" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="38" y="6310" useTextEdit="1" path="HPM5361/Compenets/hpm_math.h" left="0" top="6310" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="41" useTextEdit="1" path="APP/Include/angle_encoder.h" left="0" top="15" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="490" useTextEdit="1" path="HPM5361/Device/Include/hpm_soc.h" left="0" top="476" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="27" useTextEdit="1" path="BSP/Include/bsp_timer.h" left="0" top="7" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="63" y="40" useTextEdit="1" path="APP/Include/imu_lsm6dsvd.h" left="0" top="22" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="18" useTextEdit="1" path="APP/Include/imu.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="47" y="14" useTextEdit="1" path="APP/Include/svpwm.h" left="0" top="1" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="51" useTextEdit="1" path="HPM5361/Device/Include/hpm_gpio_drv.h" left="0" top="24" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="67" useTextEdit="1" path="BSP/Source/bsp_pwm.c" left="0" top="67" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="47" y="40" useTextEdit="1" path="BSP/Include/bsp_pwm.h" left="0" top="18" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="101" useTextEdit="1" path="HPM5361/Device/Source/drivers/hpm_pcfg_drv.c" left="0" top="63" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="46" y="161" useTextEdit="1" path="HPM5361/Device/Include/hpm_usb_drv.h" left="0" top="144" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="60" y="54" useTextEdit="1" path="HPM5361/Device/Include/hpm_usb_regs.h" left="0" top="39" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="64" y="63" useTextEdit="1" path="HPM5361/Device/Include/hpm_interrupt.h" left="0" top="45" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="288" useTextEdit="1" path="MISC/Source/filter.c" left="0" top="276" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="43" y="82" useTextEdit="1" path="MISC/Include/filter.h" left="0" top="57" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="25" y="8" useTextEdit="1" path="BSP/Include/bsp_adc.h" left="0" top="8" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="31" useTextEdit="1" path="MISC/Source/fixed_point.c" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="17" y="126" useTextEdit="1" path="MISC/Include/fixed_point.h" left="0" top="86" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="107" y="64" useTextEdit="1" path="BSP/Source/bsp_flash.c" left="0" top="51" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="45" y="15" useTextEdit="1" path="BSP/Include/bsp_flash.h" left="0" top="0" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="48" y="541" useTextEdit="1" path="HPM5361/Device/Include/hpm_romapi.h" left="0" top="531" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="242" useTextEdit="1" path="APP/Include/calibrate.h" left="0" top="204" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="248" useTextEdit="1" path="HPM5361/Device/Include/hpm_ioc_regs.h" left="0" top="220" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="237" useTextEdit="1" path="MISC/Source/misc.c" left="0" top="198" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="100" y="589" useTextEdit="1" path="APP/Source/calibrate.c" left="5" top="571" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="3" y="47" useTextEdit="1" path="HPM5361/Device/Include/hpm_csr_drv.h" left="0" top="39" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="47" y="107" useTextEdit="1" path="main.c" left="0" top="50" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="484" useTextEdit="1" path="APP/Source/imu.c" left="0" top="463" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="28" y="203" useTextEdit="1" path="BSP/Source/bsp_adc.c" left="0" selected="1" top="179" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="test_v1" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="G:/UAV_gimbal/program/test_v1/APP/Source" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <EMStudioWindow activeProject="test_v1" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="D:/Document/Project/001_FlightControl/code/test_v1_20241112/test_v1/lib/mavlink_v2_master/rmeo_FlightControl" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

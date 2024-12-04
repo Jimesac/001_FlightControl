@@ -33,15 +33,15 @@ struct {
     .pole_num = {4, 4, 4},
     .el_align_flag = {false, false, false},
 };
-
+//KTH5701磁编码器
 struct{
-    uint8_t status;
-    int16_t temp;
-    int16_t deg;
-    uint16_t mag_xy_data;
-    uint16_t mag_z_data;
-    float mag_xy_mt;
-    float mag_z_mt;
+    uint8_t status;         // 传感器的状态标志
+    int16_t temp;           // 温度数据
+    int16_t deg;            // 角度数据
+    uint16_t mag_xy_data;   // 传感器在 XY 平面的原始磁场数据
+    uint16_t mag_z_data;    // 传感器在 Z 方向的原始磁场数据
+    float mag_xy_mt;        // 转换后的 XY 平面磁场数据
+    float mag_z_mt;         // 转换后的 Z 方向磁场数据
 }kth5701_data;
 
 int16_t mag_encoder_median_buf[MAG_ENCODER_MEDIAN_SIZE] = {0};

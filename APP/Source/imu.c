@@ -23,34 +23,34 @@ struct{
     }
 };
 
+//管理惯性测量单元（IMU）数据
+struct{ 
+    uint8_t spi_wr_state;           // I2C读写状态，0:正常，>1: 不同错误
 
-struct{
-    uint8_t spi_wr_state;    // I2C读写状态，0:正常，>1: 不同错误
+    int16_t accel_smp[3];           // 3个数据，加速度计原始数据
+    int16_t gyro_smp[3];            // 陀螺仪传感器的三轴原始采样数据
+    int16_t temp_smp;               // 温度传感器的原始采样数据
 
-    int16_t accel_smp[3];
-    int16_t gyro_smp[3];
-    int16_t temp_smp;
-
-    float accel_trans_matrix[9];
-    float gyro_trans_matrix[9];
-    float gyro_fine_offset[3];
+    float accel_trans_matrix[9];    //3x3 加速度数据的坐标变换矩阵
+    float gyro_trans_matrix[9];     //3x3 陀螺仪数据的坐标变换矩阵
+    float gyro_fine_offset[3];      // 陀螺仪的精细静态偏移量
       
-    float accel_correct[3];
-    float gyro_fine_correct[3];
-    float gyro_correct[3];
+    float accel_correct[3];         // 加速度计的修正值             S!
+    float gyro_fine_correct[3];     // 陀螺仪的精细修正值
+    float gyro_correct[3];          // 最终修正后的陀螺仪数据       S!
 
-    int16_t accel_offset[3];
-    int16_t gyro_offset[3];
-    float gyro_temp_offset[3];
+    int16_t accel_offset[3];        // 3个数据，加速度计的偏移量
+    int16_t gyro_offset[3];         // 3个数据，陀螺仪的偏移量
+    float gyro_temp_offset[3];      // 陀螺仪温度的偏移量
 
 	
-    int16_t temp_correct;
+    int16_t temp_correct;           // 温度传感器的修正值           S!
     
-    bool run_normal_flag;
+    bool run_normal_flag;           // 正常运行标志
 
-    bool data_reflash_flag;
+    bool data_reflash_flag;         // 传感器数据是否需要刷新
 
-    bool stop_sampling_flag;
+    bool stop_sampling_flag;        // 停止采样标志
 
 }imu_info = {
     .spi_wr_state = 1,

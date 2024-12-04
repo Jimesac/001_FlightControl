@@ -43,9 +43,9 @@ static inline bool pllctlv2_xtal_is_enabled(PLLCTLV2_Type *ptr)
 }
 
 /**
- * @brief Set external crystal ramp-up time
+ * @brief Set external crystal ramp-up time 设置外部晶振上升时间
  * @param [in] ptr PLLCTLV2 base address
- * @param [in] rc24m_cycles Cycles of RC24M clock
+ * @param [in] rc24m_cycles Cycles of RC24M clock   // 24M RC时钟周期数
  */
 static inline void pllctlv2_xtal_set_rampup_time(PLLCTLV2_Type *ptr, uint32_t rc24m_cycles)
 {

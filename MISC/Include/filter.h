@@ -30,7 +30,7 @@ typedef struct
     float a[2];  // 分母：1+a[0]*z^(-1)+a[1]*z^(-2)
     float b[3];  // 分子：b[0]+b[1]*z^(-1)+b[2]*z^(-2)
     float de[3]; // 延时元素，delay_element
-} low_pass_filter_2nd_t;
+} low_pass_filter_2nd_t;    //32+4
 
 // 二阶陷波器参数
 typedef struct

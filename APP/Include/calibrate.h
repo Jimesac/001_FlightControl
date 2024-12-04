@@ -137,8 +137,9 @@ typedef enum{
     JFIT_ERR_SAVE_DATA,
 }joint_data_fit_state_t;
 
+//校准参数
 typedef struct{             
-    cali_flag_t cali_flag;            // 2个数据，标志位
+    cali_flag_t cali_flag;            // 2个数据，标志位        
     uint32_t rsvd_flag;
     float joint_angle_offset[3];   // 3个数据，磁编码零偏
     int32_t roll_el_angle_offset;  // 2个数据，roll轴电角度偏置
@@ -153,26 +154,27 @@ typedef struct{
     float roll_offset[2];          // 2个数据，roll横竖拍角度偏移
     float reserve2_data[12];         // 4个数据，保留
     uint32_t roll_linear_cnt;
-    float roll_linear_buf[2][JOINT_DATA_FIT_SIZE];
+    float roll_linear_buf[2][JOINT_DATA_FIT_SIZE];   
     uint32_t pitch_linear_cnt;
     float pitch_linear_buf[2][JOINT_DATA_FIT_SIZE];
     uint32_t yaw_linear_cnt;
     float yaw_linear_buf[2][JOINT_DATA_FIT_SIZE];
 }cali_params_t;
 
+//描述与机械关节相关的数据拟合或校正信息
  typedef struct {
-    float *data_pbuf[2];
-    bool init_flag;
+    float *data_pbuf[2];                //拟合或校准过程中的数据
+    bool init_flag;                     //初始化标志
 
     joint_data_fit_state_t jfit_state;
-    uint32_t align_clock_0p1us[2];
-    uint32_t cnt;
+    uint32_t align_clock_0p1us[2];      // 拟合过程中对齐的时间戳
+    uint32_t cnt;                       // 拟合或校准过程中的计数器
     
-    float angle_th;
-    float delta_angle_th;
-    float angle_last;
+    float angle_th;                     // 拟合或校准过程中的角度阈值
+    float delta_angle_th;               // 角度变化的阈值，用于判断关节角度的变化是否超出合理范围
+    float angle_last;                   // 上一次的角度值
     
-    float params[4];
+    float params[4];                    // 校准过程中的参数
 }joint_data_fit_info_t;
 
 #pragma pack() // 取消按字节对齐
@@ -180,32 +182,32 @@ typedef struct{
 typedef struct
 {
     // MPU6500静态偏置校准
-    uint8_t gyro_bias;
-    uint8_t accel_bias;
+    uint8_t gyro_bias;          // 陀螺仪的偏置校准值
+    uint8_t accel_bias;         // 加速度计的偏置校准值
 
-    joint_offset_state_t joint_offset_state;
+    joint_offset_state_t joint_offset_state;    // 关节偏移的状态信息
     
 
     // 电机电角度对齐
-    uint8_t roll_elec_angle;
-    uint8_t pitch_elec_angle;
-    uint8_t yaw_elec_angle;
+    uint8_t roll_elec_angle;    //电机的横滚角度（电角度）校准值
+    uint8_t pitch_elec_angle;   //电机的俯仰角度（电角度）校准值
+    uint8_t yaw_elec_angle;     //电机的偏航角度（电角度）校准值
 
-    elec_align_state_t elec_align_state;
-    accel_fit_state_t accel_fit_state;
+    elec_align_state_t elec_align_state;        // 电机电角度对齐状态
+    accel_fit_state_t accel_fit_state;          // 加速度拟合状态
 
-    uint8_t ahrs_convergence_valid;
+    uint8_t ahrs_convergence_valid;             // 姿态解算收敛标志
 
     uint8_t acc_bias_valid;  // 加速度校准值有效，即处于水平状态
 
-    uint8_t mpu_accel_reset;
+    uint8_t mpu_accel_reset;                        // MPU6500加速度计复位标志
     
-    bool cali_set_state_flag;
-    uint8_t cali_test_state;
-    cali_state_t cali_state;
-    cali_state_t cali_state_last;
+    bool cali_set_state_flag;                       // 校准设置标志
+    uint8_t cali_test_state;                        // 校准测试状态
+    cali_state_t cali_state;                        // 校准状态
+    cali_state_t cali_state_last;                   // 校准状态上一次
 
-    uint32_t cali_params_size;
+    uint32_t cali_params_size;                          // 校准参数大小
 } cali_status_t;
 
 void remo_cali_init(void);

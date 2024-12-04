@@ -70,58 +70,59 @@ typedef struct
 // 姿态
 typedef struct
 {
-    bool init_finished_flag;
+    bool init_finished_flag;            //初始化完成标志
 
-    float euler_rad[3];     // 欧拉角
-    trig_func_f_t euler_trigf[3];
-    float euler_deg[3];     // 欧拉角
-    float euler_deg_yaw_offset;
+    float euler_rad[3];     // 欧拉角   //欧拉角（单位：弧度）  S!
+    trig_func_f_t euler_trigf[3];       //欧拉角的三角函数值    S!
+    float euler_deg[3];     // 欧拉角   //欧拉角（单位：度）    S!
+    float euler_deg_yaw_offset;         //偏航角偏移量
     float quaternion[4];    // 四元素
     float dcm_b2n[3][3]; // 机体坐标系到地球坐标系的转换矩阵
   
     // 根据MPU6500测量的原始数据，经过PI修正后得到的四元素和欧拉角，内部使用
-    float euler_raw_rad[3];
+    float euler_raw_rad[3];             //未经滤波或处理的欧拉角（单位：弧度）
     
-    float dcm_ba2b[3][3];
+    float dcm_ba2b[3][3];               //机体坐标系的姿态调整矩阵
     struct 
     {
-        float base_dcmz[3];
-        ahrs_base_ori_t base_ori;      // 底座当前姿态
-        ahrs_base_ori_t base_ori_last; // 底座上一次的姿态
-        bool base_init_done;
-        bool base_change_flag;
+        float base_dcmz[3];             //底座当前方向的 z 轴矢量
+        ahrs_base_ori_t base_ori;       // 底座当前姿态
+        ahrs_base_ori_t base_ori_last;  // 底座上一次的姿态
+        bool base_init_done;            //底座初始化完成标志
+        bool base_change_flag;          //底座姿态变化标志
 		
-        float base_dcmz_var[3];
+        float base_dcmz_var[3];         //底座方向 z 轴矢量的变化量
     }base_state;
-    bool base_ori_fixed;
+    bool base_ori_fixed;                // 底座姿态固定标志
 
     bool gimbal_lock_flag;   // 万向节标志，正常运行时不会出现此类情况。但是在校准时会出现，特殊处理
 } ahrs_status_t;
 
+//存储与惯性导航系统（AHRS，姿态航向参考系统）中的加速度补偿相关的数据和参数
 typedef struct
 {
     ahrs_comp_params_t accel_params;         // 加速度互补滤波参数
 
-    float accel_filter_alpha;
-    float accel_filter[3];
+    float accel_filter_alpha;               // 加速度补偿的预分系数
+    float accel_filter[3];                  // 滤波后的 3 轴加速度数据      S!
     
-    float accel_norm;
-    bool use_accel_flag;
+    float accel_norm;                       //加速度向量的模值（即归一化值），用于检测异常或姿态计算
+    bool use_accel_flag;                    //是否使用加速度数据进行补偿
 	bool user_flag;
-    float accel_valid_limit[2];
+    float accel_valid_limit[2];             //加速度向量模值的有效范围（例如：[下限, 上限]）
 	
-	float limit_scale;
+	float limit_scale;                      //比例缩放因子，用于调整加速度数据的限制范围
 
-    float accel_comp_divison;      // 加速度补偿的预分系数 
+    float accel_comp_divison;               // 加速度补偿的预分系数 
 
-    float ext_acc[3]; // 外部加速度
-    float ext_acc_coef;
+    float ext_acc[3];                       // 外部加速度       S?
+    float ext_acc_coef;                     //外部加速度的权重系数，控制其对最终计算结果的影响程度
 
-    const float *gyro_deg;
-    const float *accel_g;
+    const float *gyro_deg;                  //指向陀螺仪角速度数据（单位：度每秒）
+    const float *accel_g;                   //指向加速度数据（单位：g）
 
-    float gyro_rad_comp[3];
-    float err_sum_sq;
+    float gyro_rad_comp[3];                 //补偿后的陀螺仪角速度（单位：弧度每秒）S!
+    float err_sum_sq;                       // 姿态误差平方和
 } ahrs_comp_t;
 
 void ahrs_params_init(void);

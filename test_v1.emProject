@@ -25,7 +25,7 @@
       build_generic_options_file_name="$(StudioDir)/targets/Andes_build_options.xml"
       c_additional_options=""
       c_preprocessor_definitions="HPM5361xCFx;__HPM5361XCFX_SUBFAMILY;__HPM5361_FAMILY;HPM_EN_MATH_DSP_LIB=1;CONFIG_HPM_MATH = 1;COMFIG_HPM_MATH_DSP = 1;HPM_MATH_DSP_SES_LIB = &quot;libdspf&quot;"
-      c_user_include_directories="$(ProjectDir)/HPM5361/Device/Include;$(ProjectDir)/HPM5361/Device/Include/riscv;$(ProjectDir)/BSP/Include;$(ProjectDir)/APP/Include;$(ProjectDir)/MISC/Include;$(ProjectDir)/HPM5361/Compenets;$(ProjectDir)/HPM5361/Compenets/debug_console;$(ProjectDir)/HPM5361/Compenets/nds_dsp"
+      c_user_include_directories="$(ProjectDir)/HPM5361/Device/Include;$(ProjectDir)/HPM5361/Device/Include/riscv;$(ProjectDir)/BSP/Include;$(ProjectDir)/APP/Include;$(ProjectDir)/MISC/Include;$(ProjectDir)/HPM5361/Compenets;$(ProjectDir)/HPM5361/Compenets/debug_console;$(ProjectDir)/HPM5361/Compenets/nds_dsp;$(ProjectDir)/COM/mavlink_v2_master;$(ProjectDir)/COM/mavlink_v2_master/rmeo_FlightControl;$(ProjectDir)/COM/mavlink_v2_master/common;$(ProjectDir)/COM/remolink;$(ProjectDir)/COM/connect"
       debug_register_definition_file="$(ProjectDir)/hpm_ses_reg.xml"
       debug_stack_pointer_start="__stack_end__"
       debug_start_from_entry_point_symbol="Yes"
@@ -105,6 +105,17 @@
       <file file_name="BSP/Source/bsp_spi.c" />
       <file file_name="BSP/Source/bsp_timer.c" />
       <file file_name="BSP/Source/bsp_uart.c" />
+    </folder>
+    <folder Name="COM">
+      <folder Name="connect">
+        <file file_name="COM/connect/camera.c" />
+        <file file_name="COM/connect/Flightcontrol_meg.c" />
+      </folder>
+      <folder Name="mavlink_v2_master" />
+      <folder Name="remolink">
+        <file file_name="COM/remolink/remolink.c" />
+        <file file_name="COM/remolink/remolink_msg_payload.c" />
+      </folder>
     </folder>
     <folder Name="Compenets Files">
       <file file_name="HPM5361/Compenets/debug_console/hpm_debug_console.c" />

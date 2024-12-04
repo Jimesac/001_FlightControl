@@ -9,33 +9,33 @@
 
 typedef struct
 {
-    bool data_update;
+    bool data_update;           // 霍尔传感器的数据是否已经更新
 
-    float raw_data;
-    float raw_data_last;
-    float fp_alpha;
-    float raw_data0_offset;
-    float raw_data_new;
-    uint16_t hall_offset[2];
+    float raw_data;             // 霍尔传感器原始数据
+    float raw_data_last;        // 霍尔传感器上一次的原始数据
+    float fp_alpha;             // 滤波器的平滑因子，用于低通滤波计算
+    float raw_data0_offset;     // 霍尔传感器原始数据偏移量
+    float raw_data_new;         // 霍尔传感器滤波后的数据       S?
+    uint16_t hall_offset[2];    // 霍尔传感器偏移量
     
-    bool linear_flag;
-    uint16_t linear_num;
-    float *linear_pbuf[2];
+    bool linear_flag;           // 线性拟合标志
+    uint16_t linear_num;        // 线性化补偿点的数量，用于插值计算
+    float *linear_pbuf[2];      // 指向线性化补偿的数据缓冲区，存储补偿前和补偿后的数据
 
 
-    int32_q7_t rotor_angle; //原始数据转化为度
+    int32_q7_t rotor_angle;     //原始数据转化为度 将霍尔传感器的原始数据转换为角度值
 
-    low_pass_filter_2nd_t lp_2nd_filter;
+    low_pass_filter_2nd_t lp_2nd_filter;    // 二阶低通滤波器，用于对霍尔传感器数据进行滤波，去除高频噪声
     // int32_t speed_dps_filter;
     //low_pass_filter_2nd_fp_t speed_dps_lp_2nd;
 }hall_info_t;
 
 typedef struct
 {
-    float joint_deg[3];    // 角度
-    int32_t joint_deg_raw[3];
-    int32_t joint_deg_offset[3];
-    trig_func_f_t joint_trig[3];   // 三角函数值 
+    float joint_deg[3];             // 关节的角度值
+    int32_t joint_deg_raw[3];       // 原始的关节角度值
+    int32_t joint_deg_offset[3];    // 关节角度的偏移量
+    trig_func_f_t joint_trig[3];    // 三角函数值 
 }joint_state_t;
 
 void angle_encoder_init(void);

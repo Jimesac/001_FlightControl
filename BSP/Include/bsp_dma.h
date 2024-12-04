@@ -11,7 +11,7 @@
 
 #define BOARD_DBG_UART_TX_DMA_BUF_SIZE   (256U)
 #define BOARD_DBG_UART_RX_DMA_BUF_SIZE   (512U)
-#define BOARD_COM_MA_UART_TX_DMA_BUF_SIZE   (256U)
+#define BOARD_COM_MA_UART_TX_DMA_BUF_SIZE   (300U)  //(256U)
 #define BOARD_COM_MA_UART_RX_DMA_BUF_SIZE   (576U)
 
 #define BOARD_DBG_UART_TX_DMA_CHN        (0U)
@@ -25,8 +25,20 @@
 #define BOARD_COM_MA_UART_RX_DMA_CHN        (3U)
 #define BOARD_COM_MA_UART_TX_DMAMUX_CHN     DMA_SOC_CHN_TO_DMAMUX_CHN(BOARD_APP_DMAMUX, BOARD_COM_MA_UART_TX_DMA_CHN)
 #define BOARD_COM_MA_UART_RX_DMAMUX_CHN     DMA_SOC_CHN_TO_DMAMUX_CHN(BOARD_APP_DMAMUX, BOARD_COM_MA_UART_RX_DMA_CHN)
-#define BOARD_COM_MA_UART_RX_DMA_REQ        HPM_DMA_SRC_UART0_RX
-#define BOARD_COM_MA_UART_TX_DMA_REQ        HPM_DMA_SRC_UART0_TX
+#define BOARD_COM_MA_UART_RX_DMA_REQ        HPM_DMA_SRC_UART7_RX        //HPM_DMA_SRC_UART0_RX !!!!!!!!!
+#define BOARD_COM_MA_UART_TX_DMA_REQ        HPM_DMA_SRC_UART7_TX        //HPM_DMA_SRC_UART0_TX !!!!!!!!!
+
+/*飞控 begin*/
+#define BOARD_COM_FC_UART_TX_DMA_BUF_SIZE   (512U)
+#define BOARD_COM_FC_UART_RX_DMA_BUF_SIZE   (512U)
+
+#define BOARD_COM_FC_UART_TX_DMA_CHN        (4U)
+#define BOARD_COM_FC_UART_RX_DMA_CHN        (5U)
+#define BOARD_COM_FC_UART_TX_DMAMUX_CHN     DMA_SOC_CHN_TO_DMAMUX_CHN(BOARD_APP_DMAMUX, BOARD_COM_FC_UART_TX_DMA_CHN)
+#define BOARD_COM_FC_UART_RX_DMAMUX_CHN     DMA_SOC_CHN_TO_DMAMUX_CHN(BOARD_APP_DMAMUX, BOARD_COM_FC_UART_RX_DMA_CHN)
+#define BOARD_COM_FC_UART_RX_DMA_REQ        HPM_DMA_SRC_UART3_RX
+#define BOARD_COM_FC_UART_TX_DMA_REQ        HPM_DMA_SRC_UART3_TX
+
 
 extern bool uart_dbg_tx_dma_done;
 extern bool uart_dbg_rx_dma_done;
@@ -34,14 +46,33 @@ extern bool uart_dbg_rx_dma_done;
 extern bool uart_com_ma_tx_dma_done;
 extern bool uart_com_ma_rx_dma_done;
 
+extern bool uart_com_fc_tx_dma_done;
+extern bool uart_com_fc_rx_dma_done;
+
+extern ATTR_PLACE_AT_NONCACHEABLE_BSS_WITH_ALIGNMENT(4) uint8_t uart_com_fc_rx_dma_buf[BOARD_COM_FC_UART_RX_DMA_BUF_SIZE] ;   //512U 接收缓冲区
+
 void bsp_dma_init(void);
 
 
 hpm_stat_t uart_debug_tx_trigger_dma(DMA_Type *dma_ptr, uint32_t size);
 hpm_stat_t uart_debug_rx_trigger_dma(DMA_Type *dma_ptr, uint32_t dst, uint32_t size);
 hpm_stat_t uart_debug_rx_circle_dma(DMA_Type *dma_ptr, uint32_t dst, uint32_t size);
+
+hpm_stat_t uart_com_ma_tx_trigger_dma(DMA_Type *dma_ptr, uint32_t size);
+hpm_stat_t uart_com_ma_rx_trigger_dma(DMA_Type *dma_ptr, uint32_t dst, uint32_t size);
+hpm_stat_t uart_com_ma_rx_circle_dma(DMA_Type *dma_ptr, uint32_t dst, uint32_t size);
+
 void bsp_dma_set_uart_dbg_type(UART_Type *uart_ptr);
 void bsp_dma_set_uart_com_ma_type(UART_Type *uart_ptr);
 uint8_t* bsp_dma_get_uart_dbg_tx_pbuf(void);
 uint8_t* bsp_dma_get_uart_com_ma_tx_pbuf(void);
+
+/*飞控*/
+hpm_stat_t uart_com_fc_tx_trigger_dma(DMA_Type *dma_ptr, uint32_t size);
+hpm_stat_t uart_com_fc_rx_trigger_dma(DMA_Type *dma_ptr, uint32_t dst, uint32_t size);
+hpm_stat_t uart_com_fc_rx_circle_dma(DMA_Type *dma_ptr, uint32_t dst, uint32_t size);
+void bsp_dma_set_uart_com_fc_type(UART_Type *uart_ptr);
+uint8_t* bsp_dma_get_uart_com_fc_tx_pbuf(void);
+
+
 #endif /* __BSP_LED_H */
